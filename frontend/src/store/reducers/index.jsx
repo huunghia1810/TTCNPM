@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
-import Device from './Device'
+import Menu from './Menu'
 
 export default combineReducers({
-    Device,
+    Menu,
 })

@@ -16,10 +16,26 @@ import project3 from '../assets/images/home-decor-3.jpeg'
 
 //import components
 
+//import actions
+import ActionMenu from '../actions/Menu'
+
 //init info
 const { Content } = Layout
 
 const Home = props => {
+  const dispatch = useDispatch()
+
+  const storeMenu = useSelector(state => state.Menu) || {}
+
+  useEffect(() => {
+    dispatch(ActionMenu.getMenu())
+  }, [])
+
+  useEffect(() => {
+    console.log(`menu configs`, storeMenu);
+  }, [storeMenu])
+
+
 
   const breakpointColumnsObj = {
     default: 3,
@@ -88,7 +104,7 @@ const Home = props => {
             </Row>
 
             <List
-              class="list-item"
+              className="list-item"
               size="large"
               bordered
               dataSource={dataList}
