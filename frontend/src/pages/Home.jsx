@@ -1,8 +1,6 @@
 import _ from 'lodash'
 import moment from 'moment'
 
-import Dummy from 'dummyjs'
-
 //import react & relations
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
@@ -17,8 +15,6 @@ import project2 from '../assets/images/home-decor-2.jpeg'
 import project3 from '../assets/images/home-decor-3.jpeg'
 
 //import components
-import Header from './../components/layout/Header'
-import Footer from './../components/layout/Footer'
 
 //init info
 const { Content } = Layout
@@ -108,29 +104,25 @@ const Home = props => {
 
   return (
     <>
-      <Layout className='layout-default layout-signin'>
-        <Header />
-        <Content className='signin'>
-          <Row gutter={[24, 0]}>
-            <Col span={22} offset={1}>
+      <Content className='signin'>
+        <Row gutter={[24, 0]}>
+          <Col span={22} offset={1}>
             {/*<Col xs={{ span: 24, offset: 0 }}
                  lg={{ span: 22, offset: 1 }}
                  md={{ span: 12 }}
             >*/}
-              <Masonry
-                breakpointCols={breakpointColumnsObj}
-                className="order-masonry-grid"
-                columnClassName="order-masonry-grid_column"
-                columnAttrs={{ className: 'should be overridden', 'data-test': '', style: { '--test': 'test' }}}
-              >
-                {items}
-              </Masonry>
-            </Col>
+            <Masonry
+              breakpointCols={breakpointColumnsObj}
+              className="order-masonry-grid"
+              columnClassName="order-masonry-grid_column"
+              columnAttrs={{ className: 'should be overridden', 'data-test': '', style: { '--test': 'test' }}}
+            >
+              {items}
+            </Masonry>
+          </Col>
 
-          </Row>
-        </Content>
-        <Footer />
-      </Layout>
+        </Row>
+      </Content>
     </>
   )
 }

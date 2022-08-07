@@ -8,8 +8,7 @@ const MyFooter = props => {
     <>
       <Footer style={{ background: '#fafafa' }}>
         <p className='copyright'>
-          {' '}
-          Copyright © 2022 Order System by <a href='#team'>TTCNPM's team</a>.{' '}
+          {' '}Copyright © 2022 Order System by TTCNPM's team.{' '}
         </p>
       </Footer>
     </>
