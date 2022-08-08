@@ -3056,3 +3056,23 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
 .card-project .list-item .ant-list-items .ant-list-item {
   border-bottom: 1px solid #dddddd5e;
 }
+
+.card-project .list-item .ant-list-items .ant-list-item:hover {
+  cursor: pointer;
+}
+
+.card-project .list-item .ant-list-items .ant-list-item:last-child {
+  border-bottom: none;
+}
+
+.card-project.ant-card .card-title {
+  font-weight: 800;
+  font-size: 18px;
+  color: #8c8c8c;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.card-project .content {
+  padding: 0 20px;
+}

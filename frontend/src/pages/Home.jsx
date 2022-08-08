@@ -25,6 +25,10 @@ const { Content } = Layout
 const Home = props => {
   const dispatch = useDispatch()
 
+  //state
+  const [htmlMenu, setHtmlMenu] = useState(null)
+  const [menuItemSelected, setMenuItemSelected] = useState(null)
+
   const storeMenu = useSelector(state => state.Menu) || {}
 
   useEffect(() => {
@@ -32,91 +36,71 @@ const Home = props => {
   }, [])
 
   useEffect(() => {
-    console.log(`menu configs`, storeMenu);
+    console.log(`menu configs`, storeMenu)
+    handleRenderMenu()
   }, [storeMenu])
 
+  //handler
+  const handleRenderMenu = () => {
+    const { configs } = storeMenu
+    let htmlMenu = null
 
+    if(Array.isArray(configs)) {
+      htmlMenu = configs.map((i, index) => {
+        const { category, items } = i;
+        const { name: catName, img: catImg } = category
+        return (
+          <>
+            <Card
+              key={index}
+              bordered={false}
+              className="card-project"
+              cover={<img src={catImg} />}
+            >
+              <div className="content">
+                <div className="card-title">{catName}</div>
+              </div>
+
+              <List
+                className="list-item"
+                size="large"
+                itemLayout='vertical'
+                dataSource={items}
+                renderItem={item => (
+                  <List.Item
+                    onClick={() => handleClickMenuItem(item)}
+                    extra={
+                      <>
+                        <span>{item.price.toLocaleString()}</span>
+                        {/*<img
+                            width={272}
+                            alt="logo"
+                            src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                          />*/}
+                      </>
+                    }
+                  >{item.name}</List.Item>
+                )}
+              />
+            </Card>
+          </>
+        )
+      })
+    }
+
+    setHtmlMenu(htmlMenu)
+  }
+
+  const handleClickMenuItem = item => {
+    console.log('selected: ', item)
+    setMenuItemSelected(item)
+  }
 
   const breakpointColumnsObj = {
     default: 3,
     1200: 2,
     850: 1,
   }
-  const project = [
-    {
-      img: project1,
-      titlesub: "Project #1",
-      title: "Modern",
-      disciption:
-        "As Uber works through a huge amount of internal management turmoil.",
-    },
-    {
-      img: project2,
-      titlesub: "Project #2",
-      title: "Scandinavian",
-      disciption:
-        "Music is something that every person has his or her own specific opinion about.",
-    },
-    {
-      img: project3,
-      titlesub: "Project #3",
-      title: "Minimalist",
-      disciption:
-        "Different people have different taste, and various types of music, Zimbali Resort",
-    },
-    {
-      img: project3,
-      titlesub: "Project #3",
-      title: "Minimalist",
-      disciption:
-        "Different people have different taste, and various types of music, Zimbali Resort",
-    },
-  ]
-
-  const dataList = [
-    'Racing car sprays burning fuel into crowd.',
-    'Japanese princess to wed commoner.',
-    'Australian walks 100km after outback crash.',
-    'Man charged over missing wedding girl.',
-    'Los Angeles battles huge wildfires.',
-  ];
-
-  const items = project.map((p, index) => {
-    return (
-      <>
-        <Card
-          key={index}
-          bordered={false}
-          className="card-project"
-          cover={<img src={p.img} />}
-        >
-          <div className="content">
-            <div className="card-tag">{p.titlesub}</div>
-            <h5>{p.titile}</h5>
-            <p>{p.disciption}</p>
-            <Row gutter={[6, 0]} className="card-footer">
-              <Col span={12}>
-                <Button type="button">VIEW PROJECT</Button>
-              </Col>
-              <Col span={12} className="text-right">
-                <div>abc</div>
-              </Col>
-            </Row>
-
-            <List
-              className="list-item"
-              size="large"
-              bordered
-              dataSource={dataList}
-              renderItem={item => (
-                <List.Item>{item}</List.Item>
-              )}
-            />
-          </div>
-        </Card>
-      </>
-    )
-  })
 
   return (
     <>
@@ -133,7 +117,7 @@ const Home = props => {
               columnClassName="order-masonry-grid_column"
               columnAttrs={{ className: 'should be overridden', 'data-test': '', style: { '--test': 'test' }}}
             >
-              {items}
+              {htmlMenu}
             </Masonry>
           </Col>
 
