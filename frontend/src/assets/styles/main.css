@@ -3076,3 +3076,14 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
 .card-project .content {
   padding: 0 20px;
 }
+
+.card-billing-info {
+  margin-bottom: 20px;
+}
+.card-billing-info .ant-card-body {
+  padding: 24px;
+}
+.card-billing-info .ant-card-body .item-desc {
+  color: #8c8c8c;
+  margin-bottom: 20px;
+}

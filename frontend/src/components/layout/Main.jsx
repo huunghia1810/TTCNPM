@@ -11,6 +11,7 @@ import Footer from './Footer'
 //----------import pages---------------
 import Home from './../../pages/Home'
 import Cart from './../../pages/Cart'
+import Order from './../../pages/Order'
 import PageNotFound from './../layout/PageNotFound/PageNotFound'
 
 const { Content } = Layout
@@ -37,6 +38,9 @@ const Main = props => {
         break
       case 'cart':
         mainComponent = <Cart></Cart>
+        break
+      case 'order':
+        mainComponent = <Order></Order>
         break
       default:
         mainComponent = <PageNotFound></PageNotFound>

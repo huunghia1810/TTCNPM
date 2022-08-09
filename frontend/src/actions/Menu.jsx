@@ -17,6 +17,12 @@ class ActionMenu {
       })
     }
   }
+
+  pickMenuItem(objMenuItem) {
+    return function (dispatch) {
+      dispatch({type: constantMenu.MENU_PICK_ITEM_SUCCESS, payload: objMenuItem})
+    }
+  }
 }
 
 export default new ActionMenu()

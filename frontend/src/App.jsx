@@ -21,7 +21,6 @@ const App = props => {
     <div className='App'>
       <Router>
         <Switch>
-          <Route path='/home' exact component={Home} />
           <Route path={'/:entity'} component={Main} />
           <Route path='/' exact component={Main}></Route>
           <Route component={PageNotFound} />
