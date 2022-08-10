@@ -17,6 +17,7 @@ import {faArrowLeftLong} from '@fortawesome/free-solid-svg-icons'
 
 //init info
 const { Title } = Typography
+const { TextArea } = Input
 
 const Order = props => {
   const history = useHistory()
@@ -24,6 +25,8 @@ const Order = props => {
   //state
   const [itemOptionSelected, setItemOptionSelected] = useState(null)
   const [itemMenuSelected, setItemMenuSelected] = useState({})
+  const [numberOfItem, setNumberOfItem] = useState(1)
+  const [itemNote, setItemNote] = useState(null)
 
   //store
   const storeMenu = useSelector(state => state.Menu) || {}
@@ -31,6 +34,14 @@ const Order = props => {
   useEffect(() => {
     handleRenderItemMenuSelected()
   }, [storeMenu])
+
+  useEffect(() => {
+    if(itemMenuSelected.options) {
+      if(_.isNull(itemOptionSelected)) {
+        setItemOptionSelected(itemMenuSelected.options[0].id)
+      }
+    }
+  }, [itemMenuSelected])
 
   useEffect(() => {
     handleRenderItemMenuSelected()
@@ -49,6 +60,16 @@ const Order = props => {
 
     setItemMenuSelected(storeMenu.menuItemSelected)
   }
+  const handleAddItemToCart = item => {
+
+  }
+  const handleChangeNumber = value => {
+    value = _.isNumber(value) ? value : 1
+    setNumberOfItem(value)
+  }
+  const handleChangeNote = value => {
+    setItemNote(value)
+  }
 
   return (
     <>
@@ -59,7 +80,7 @@ const Order = props => {
           >
             <Card className="card-billing-info"
                   title={<h3 className="font-semibold m-0">Pick item</h3>}
-                  extra={<Button type="link" className="darkbtn">
+                  extra={<Button type="link" onClick={() => history.push('/')} className="darkbtn">
                     <strong><FontAwesomeIcon icon={faArrowLeftLong} /> Add more</strong>
                   </Button>}
                   bordered="false">
@@ -83,9 +104,12 @@ const Order = props => {
                     </Radio.Group>
                   ) : null
                 }
-                <div style={{marginTop: 20, textAlign: 'center'}}>
-                  <InputNumber min={1} max={10} defaultValue={3}  /><br/>
-                  <Button style={{marginTop: 20}} type="button" className="text-success">
+                <div style={{marginTop: 20, textAlign: 'left'}}>
+                  <label htmlFor="">Notes</label>: <TextArea style={{marginBottom: 15}} rows={4} onchange={() => handleChangeNote} />
+                  <label htmlFor="">Number</label>: <br/><InputNumber min={1} max={10} onChange={() => handleChangeNumber} defaultValue={1}  /><br/>
+                </div>
+                <div style={{textAlign: 'center'}}>
+                  <Button onClick={() => handleAddItemToCart} style={{marginTop: 20}} type="button" className="text-success">
                     Add To Cart
                   </Button>
                 </div>
