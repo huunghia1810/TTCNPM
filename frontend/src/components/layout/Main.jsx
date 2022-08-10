@@ -14,9 +14,14 @@ import Cart from './../../pages/Cart'
 import Order from './../../pages/Order'
 import PageNotFound from './../layout/PageNotFound/PageNotFound'
 
+//import actions
+import ActionIdentity from '../../actions/Identity'
+
 const { Content } = Layout
 
 const Main = props => {
+  const dispatch = useDispatch()
+
   let { entity, action } = useParams()
 
   const [childComponent, setChildComponent] = useState(false)
@@ -29,6 +34,7 @@ const Main = props => {
     handleUpdateMainContent()
   },[entity, action])
 
+  //handler
   const handleUpdateMainContent = () => {
     let mainComponent = null
     entity = _.isUndefined(entity) ? 'home' : entity;
@@ -51,7 +57,7 @@ const Main = props => {
     }
     setChildComponent(mainComponent)
   }
-  
+
   return (
     <>
       <Layout className='layout-default layout-signin'>

@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import {Switch, Route, Redirect, BrowserRouter as Router, useHistory} from 'react-router-dom'
 
 //import components
-import Home from './pages/Home'
 import Main from './components/layout/Main'
 import ModalDialogs from './components/ModalDialogs/ModalDialogs'
 import PageNotFound from './components/layout/PageNotFound/PageNotFound'
@@ -15,7 +14,24 @@ import 'antd/dist/antd.css'
 import './assets/styles/main.css'
 import './assets/styles/responsive.css'
 
+//import actions
+import ActionIdentity from './actions/Identity'
+
 const App = props => {
+  const dispatch = useDispatch()
+
+  const storeIdentity = useSelector(state => state.Identity) || {}
+
+  useEffect(() => {
+    dispatch(ActionIdentity.generateIdentity()) //if not exist slot number -> generate & set in localStorage
+  },[])
+
+  useEffect(() => {
+    if(!_.isNull(storeIdentity.identityKey)) {
+      dispatch(ActionIdentity.getIdentityInfo(storeIdentity.identityKey))
+    }
+    dispatch(ActionIdentity.generateIdentity()) //if not exist slot number -> generate & set in localStorage
+  },[storeIdentity.identityKey])
 
   return (
     <div className='App'>

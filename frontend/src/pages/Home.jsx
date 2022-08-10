@@ -21,7 +21,7 @@ import ActionMenu from '../actions/Menu'
 const { Content } = Layout
 
 const Home = props => {
-  const history = useHistory()
+const history = useHistory()
   const dispatch = useDispatch()
 
   //state
