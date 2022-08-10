@@ -4,6 +4,7 @@ const userRoles = require('./user-roles/user-roles.service.js')
 const notifications = require('./notifications/notifications.service.js')
 const orders = require('./orders/orders.service.js');
 const menu = require('./menu/menu.service.js');
+const identity = require('./identity/identity.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users)
@@ -12,4 +13,5 @@ module.exports = function (app) {
   app.configure(notifications)
   app.configure(orders);
   app.configure(menu);
+  app.configure(identity);
 }
