@@ -12,6 +12,7 @@ import Footer from './Footer'
 import Home from './../../pages/Home'
 import Cart from './../../pages/Cart'
 import Order from './../../pages/Order'
+import Rating from './../../pages/Rating'
 import PageNotFound from './../layout/PageNotFound/PageNotFound'
 
 //import actions
@@ -47,6 +48,9 @@ const Main = props => {
         break
       case 'order':
         mainComponent = <Order></Order>
+        break
+      case 'rating':
+        mainComponent = <Rating></Rating>
         break
       default:
         mainComponent = <PageNotFound></PageNotFound>

@@ -112,6 +112,11 @@ const Order = props => {
     }
 
     dispatch(ActionCart.setCart({...info}))
+
+    //nghianh processing
+    setTimeout(() => {
+      history.push('/')
+    }, 200)
   }
   const handleChangeNumber = value => {
     value = _.isNumber(value) ? value : 1

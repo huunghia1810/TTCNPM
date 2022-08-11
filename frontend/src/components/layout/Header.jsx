@@ -1,7 +1,9 @@
 import moment from 'moment'
 import _ from 'lodash'
-import React, { useState, useEffect } from 'react'
 import 'moment/locale/vi'
+
+import React, { useState, useEffect } from 'react'
+import {useSelector} from 'react-redux'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faCartShopping} from '@fortawesome/free-solid-svg-icons'
@@ -29,36 +31,23 @@ const { Header } = Layout
 
 const MyHeader = props => {
 
+  const [numberCartItems, setNumberCartItems] = useState(null)
+
+  //store
+  const storeCart = useSelector(state => state.Cart) || {}
+
   useEffect(() => {
   },[])
 
-  //------------------------render section----------------------------------
-  //------------------------render section----------------------------------
-
-  const data = [
-    {
-      title: "New message from Sophie",
-      description: <>2 days ago</>,
+  useEffect(() => {
+    const items = _.get(storeCart, 'info.items')
+    if(items) {
+      setNumberCartItems(items.length)
     }
-  ];
+  }, [storeCart])
 
-  const menu = (
-    <List
-      min-width="100%"
-      className="header-notifications-dropdown "
-      itemLayout="horizontal"
-      dataSource={data}
-      renderItem={(item) => (
-        <List.Item>
-          <List.Item.Meta
-            title={item.title}
-            description={item.description}
-          />
-        </List.Item>
-      )}
-    />
-  );
-
+  //------------------------render section----------------------------------
+  //------------------------render section----------------------------------
 
   return (
     <>
@@ -76,7 +65,7 @@ const MyHeader = props => {
           </Col>
           <Col span={24} md={18} style={{textAlign: 'right'}} className="header-control">
             <Link to="/cart">
-              <Badge size="small" count={4}>
+              <Badge size="small" count={numberCartItems}>
                 <FontAwesomeIcon style={{fontSize: 25, color: '#606c38'}} icon={faCartShopping} />
               </Badge>
             </Link>
