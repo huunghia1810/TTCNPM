@@ -15,25 +15,36 @@ import {faArrowLeftLong} from '@fortawesome/free-solid-svg-icons'
 
 //import components
 
+//import actions
+import ActionCart from '../actions/Cart'
+
 //init info
 const { Title } = Typography
 const { TextArea } = Input
 
 const Order = props => {
   const history = useHistory()
+  const dispatch = useDispatch()
 
   //state
   const [itemOptionSelected, setItemOptionSelected] = useState(null)
   const [itemMenuSelected, setItemMenuSelected] = useState({})
-  const [numberOfItem, setNumberOfItem] = useState(1)
+  const [quantityOfItem, setQuantityOfItem] = useState(1)
   const [itemNote, setItemNote] = useState(null)
 
   //store
   const storeMenu = useSelector(state => state.Menu) || {}
+  const storeCart = useSelector(state => state.Cart) || {}
 
   useEffect(() => {
     handleRenderItemMenuSelected()
   }, [storeMenu])
+
+  useEffect(() => {
+    if(Object.keys(storeCart.info).length) {
+      console.log('Cart Info: ', storeCart.info)
+    }
+  }, [storeCart])
 
   useEffect(() => {
     if(itemMenuSelected.options) {
@@ -60,15 +71,54 @@ const Order = props => {
 
     setItemMenuSelected(storeMenu.menuItemSelected)
   }
-  const handleAddItemToCart = item => {
+  const handleAddItemToCart = () => {
+    const {info} = storeCart
+    info.items = info.items || []
 
+    const curItem = info.items.find(item => item.id === itemMenuSelected.id)
+    if(!curItem) { //note exist any item
+      const tmpObjItem = {
+        id: itemMenuSelected.id,
+        note: itemNote,
+      }
+      if(_.isNull(itemOptionSelected)) {
+        tmpObjItem.quantity = parseInt(quantityOfItem)
+      } else {
+        tmpObjItem.quantity = [
+          {
+            id: itemOptionSelected,
+            quantity: parseInt(quantityOfItem)
+          }
+        ]
+      }
+      info.items = [...info.items, tmpObjItem]
+    } else {
+      if(!_.isNull(itemNote)) {
+        curItem.note = itemNote
+      }
+      if(_.isNull(itemOptionSelected)) {
+        curItem.quantity += parseInt(quantityOfItem)
+      } else {
+        const idxExisted = curItem.quantity.findIndex(ob => ob.id === itemOptionSelected)
+        if(idxExisted !== -1) {
+          curItem.quantity[idxExisted].quantity += parseInt(quantityOfItem)
+        } else {
+          curItem.quantity.push({
+            id: itemOptionSelected,
+            quantity: parseInt(quantityOfItem)
+          })
+        }
+      }
+    }
+
+    dispatch(ActionCart.setCart({...info}))
   }
   const handleChangeNumber = value => {
     value = _.isNumber(value) ? value : 1
-    setNumberOfItem(value)
+    setQuantityOfItem(value)
   }
-  const handleChangeNote = value => {
-    setItemNote(value)
+  const handleChangeNote = e => {
+    setItemNote(e.target.value)
   }
 
   return (
@@ -105,11 +155,11 @@ const Order = props => {
                   ) : null
                 }
                 <div style={{marginTop: 20, textAlign: 'left'}}>
-                  <label htmlFor="">Notes</label>: <TextArea style={{marginBottom: 15}} rows={4} onchange={() => handleChangeNote} />
-                  <label htmlFor="">Number</label>: <br/><InputNumber min={1} max={10} onChange={() => handleChangeNumber} defaultValue={1}  /><br/>
+                  <label htmlFor="">Notes</label>: <TextArea style={{marginBottom: 15}} rows={4} onChange={handleChangeNote} />
+                  <label htmlFor="">Number</label>: <br/><InputNumber min={1} max={10} onChange={handleChangeNumber} defaultValue={1}  /><br/>
                 </div>
                 <div style={{textAlign: 'center'}}>
-                  <Button onClick={() => handleAddItemToCart} style={{marginTop: 20}} type="button" className="text-success">
+                  <Button onClick={() => handleAddItemToCart()} style={{marginTop: 20}} type="button" className="text-success">
                     Add To Cart
                   </Button>
                 </div>

@@ -16,6 +16,7 @@ import './assets/styles/responsive.css'
 
 //import actions
 import ActionIdentity from './actions/Identity'
+import ActionCart from './actions/Cart'
 
 const App = props => {
   const dispatch = useDispatch()
@@ -24,6 +25,7 @@ const App = props => {
 
   useEffect(() => {
     dispatch(ActionIdentity.generateIdentity()) //if not exist slot number -> generate & set in localStorage
+    dispatch(ActionCart.generateCart())
   },[])
 
   useEffect(() => {
