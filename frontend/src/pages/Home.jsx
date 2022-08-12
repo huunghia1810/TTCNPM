@@ -31,13 +31,6 @@ const history = useHistory()
   const storeMenu = useSelector(state => state.Menu) || {}
 
   useEffect(() => {
-    if(!Object.keys(storeMenu.configs).length) {
-      dispatch(ActionMenu.getMenu())
-    }
-  }, [])
-
-  useEffect(() => {
-    console.log(`menu configs`, storeMenu)
     handleRenderMenu()
   }, [storeMenu])
 

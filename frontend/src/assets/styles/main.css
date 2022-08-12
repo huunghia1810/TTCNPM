@@ -3087,3 +3087,28 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   color: #8c8c8c;
   margin-bottom: 20px;
 }
+.card-billing-info.cart-item {
+  margin-bottom: 0;
+}
+
+.card-billing-info.cart-item.cart-item-right {
+  text-align: right;
+}
+
+.card-billing-info.cart-item.cart-item-right .ant-descriptions-title {
+  color: #1890ff;
+}
+
+.card-billing-info.cart-item .ant-descriptions-title {
+  text-transform: uppercase;
+}
+
+.h-full.cart-list {
+  background: #e0e1dd;
+  border-radius: 12px;
+  box-shadow: 0 20px 27px rgb(0 0 0 / 5%);
+}
+
+.h-full.cart-list h6 {
+  text-transform: uppercase;
+}
