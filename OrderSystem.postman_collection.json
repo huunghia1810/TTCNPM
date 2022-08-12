@@ -1,0 +1,700 @@
+{
+	"info": {
+		"_postman_id": "aa5f82fd-6b96-4179-9298-39d579331ee3",
+		"name": "OrderSystem",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2651503"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "SignUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fullName\": \"Nghia NH\",\n    \"email\": \"huunghia1810@gmail.com\",\n    \"status\": \"active\",\n    \"dateOfBirth\": \"2004-04-20T19:11:34.000Z\",\n    \"phone\": \"8409093681\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dlocal}}/users",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"123456\",\n  \"oldPassword\": \"123455\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dlocal}}/user-change-password",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"user-change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"fullName\": \"Nghia NH\",\n\t\"dateOfBirth\": \"2018-03-18T17:45:12Z\",\n    \"phone\": \"0909093673\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dlocal}}/users/1",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dlocal}}/users",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dlocal}}/users/1",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Menu",
+			"item": [
+				{
+					"name": "Get List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dlocal}}/menu",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"menu"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dlocal}}/menu/1",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"menu",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"configs\": [\n        {\n            \"category\": {\n                \"id\": 11,\n                \"name\": \"Nướng\",\n                \"img\": \"https://thegangs.onha.vn/images/repo/Tomahawk%20Beef%20890k%20(%201kg%20).jpg\"\n            },\n            \"items\": [\n                {\n                    \"id\": 1101,\n                    \"catId\": 11,\n                    \"name\": \"Đùi cừu nướng\",\n                    \"price\": 299000,\n                    \"description\": \"Đùi cừu nướng trọng lương 300gr\",\n                    \"options\": [\n                        {\n                            \"id\": 110101,\n                            \"itemId\": 1101,\n                            \"name\": \"Nướng ngói\",\n                            \"description\": \"\"\n                        },\n                        {\n                            \"id\": 110102,\n                            \"itemId\": 1101,\n                            \"name\": \"Nướng lu\",\n                            \"description\": \"\"\n                        }\n                    ]\n                },\n                {\n                    \"id\": 1102,\n                    \"catId\": 11,\n                    \"name\": \"Mực nướng sa tế / muối ớt\",\n                    \"price\": 239000,\n                    \"description\": \"200gr\",\n                    \"options\": [\n                        {\n                            \"id\": 110201,\n                            \"itemId\": 1102,\n                            \"name\": \"Sa tế\",\n                            \"description\": \"\"\n                        },\n                        {\n                            \"id\": 110202,\n                            \"itemId\": 1102,\n                            \"name\": \"Muối ớt\",\n                            \"description\": \"\"\n                        }\n                    ]\n                },\n                {\n                    \"id\": 1103,\n                    \"catId\": 11,\n                    \"name\": \"Rau củ nướng\",\n                    \"price\": 70000,\n                    \"description\": \"210gr\"\n                }\n            ]\n        },\n        {\n            \"category\": {\n                \"id\": 22,\n                \"name\": \"Lẩu\",\n                \"img\": \"https://thegangs.onha.vn/images/repo/91647914_505934110315337_91887878950354944_n.jpg\"\n            },\n            \"items\": [\n                {\n                    \"id\": 2201,\n                    \"catId\": 22,\n                    \"name\": \"Lẩu cá hồi\",\n                    \"price\": 199000,\n                    \"description\": \"cho 2 người ăn\"\n                },\n                {\n                    \"id\": 2202,\n                    \"catId\": 22,\n                    \"name\": \"Lẩu cá kèo\",\n                    \"price\": 160000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 2203,\n                    \"catId\": 22,\n                    \"name\": \"Lẩu cá thác lác\",\n                    \"price\": 179000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 2204,\n                    \"catId\": 22,\n                    \"name\": \"Lẩu cá đuối\",\n                    \"price\": 229000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 2205,\n                    \"catId\": 22,\n                    \"name\": \"Lẩu cá ba sa\",\n                    \"price\": 129000,\n                    \"description\": \"\"\n                }\n            ]\n        },\n        {\n            \"category\": {\n                \"id\": 33,\n                \"name\": \"Cơm chiên\",\n                \"img\": \"https://thegangs.onha.vn/images/repo/com%20toi%20chiren.jpg\"\n            },\n            \"items\": [\n                {\n                    \"id\": 3301,\n                    \"catId\": 33,\n                    \"name\": \"Cơm chiên cá mặn\",\n                    \"price\": 199000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 3302,\n                    \"catId\": 33,\n                    \"name\": \"Cơm chiên hải sản\",\n                    \"price\": 1890000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 3303,\n                    \"catId\": 33,\n                    \"name\": \"Cơm chiên tỏi ớt\",\n                    \"price\": 279000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 3304,\n                    \"catId\": 33,\n                    \"name\": \"Cơm chiên dương châu\",\n                    \"price\": 159000,\n                    \"description\": \"\"\n                }\n            ]\n        },\n        {\n            \"category\": {\n                \"id\": 44,\n                \"name\": \"Lai rai\",\n                \"img\": \"https://pasgo.vn/Upload/anh-chi-tiet/nha-hang-cot-dien-kitchen-quan-10-slide-2-normal-131443816152.jpg\"\n            },\n            \"items\": [\n                {\n                    \"id\": 4401,\n                    \"catId\": 44,\n                    \"name\": \"Súp cá hồi NaUy\",\n                    \"price\": 369000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 4402,\n                    \"catId\": 44,\n                    \"name\": \"Súp kim chi hải sản\",\n                    \"price\": 259000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 4403,\n                    \"catId\": 44,\n                    \"name\": \"Sụn gà nướng sa tế\",\n                    \"price\": 119000,\n                    \"description\": \"\"\n                }\n            ]\n        },\n        {\n            \"category\": {\n                \"id\": 55,\n                \"name\": \"Các món rau\",\n                \"img\": \"https://thegangs.onha.vn/images/repo/91501307_206649113974931_3254321618104614912_n.jpg\"\n            },\n            \"items\": [\n                {\n                    \"id\": 5501,\n                    \"catId\": 55,\n                    \"name\": \"Đậu bắp nướng chao\",\n                    \"price\": 59000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 5502,\n                    \"catId\": 55,\n                    \"name\": \"Cà tím xào rượu vang\",\n                    \"price\": 129000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 5503,\n                    \"catId\": 55,\n                    \"name\": \"Khổ qua xào\",\n                    \"price\": 189000,\n                    \"description\": \"\",\n                    \"options\": [\n                        {\n                            \"id\": 550301,\n                            \"itemId\": 5503,\n                            \"name\": \"Xào trứng\",\n                            \"description\": \"\"\n                        },\n                        {\n                            \"id\": 550302,\n                            \"itemId\": 5503,\n                            \"name\": \"Chà bông\",\n                            \"description\": \"\"\n                        }\n                    ]\n                },\n                {\n                    \"id\": 5504,\n                    \"catId\": 55,\n                    \"name\": \"Măng tây xào\",\n                    \"price\": 229000,\n                    \"description\": \"\",\n                    \"options\": [\n                        {\n                            \"id\": 550401,\n                            \"itemId\": 5504,\n                            \"name\": \"Xào tỏi\",\n                            \"description\": \"\"\n                        },\n                        {\n                            \"id\": 550402,\n                            \"itemId\": 5504,\n                            \"name\": \"Xào bò mỹ\",\n                            \"description\": \"\"\n                        }\n                    ]\n                }\n            ]\n        },\n        {\n            \"category\": {\n                \"id\": 66,\n                \"name\": \"Các món khác\",\n                \"img\": \"https://pasgo.vn/Upload/anh-chi-tiet/nha-hang-cot-dien-kitchen-quan-10-slide-8-normal-131444416158.jpg\"\n            },\n            \"items\": [\n                {\n                    \"id\": 6601,\n                    \"catId\": 66,\n                    \"name\": \"Mực hấp me\",\n                    \"price\": 299000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 6602,\n                    \"catId\": 66,\n                    \"name\": \"Giò heo chiên giòn\",\n                    \"price\": 139000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 6603,\n                    \"catId\": 66,\n                    \"name\": \"Đậu hủ sốt cay\",\n                    \"price\": 119000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 6604,\n                    \"catId\": 66,\n                    \"name\": \"Ba rọi sả tắc\",\n                    \"price\": 119000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 6605,\n                    \"catId\": 66,\n                    \"name\": \"Tôm sú cháy tỏi\",\n                    \"price\": 229000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 6606,\n                    \"catId\": 66,\n                    \"name\": \"Sasimi cá hồi Nauy\",\n                    \"price\": 249000,\n                    \"description\": \"\"\n                }\n            ]\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dlocal}}/menu",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"menu"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"configs\": [\n        {\n            \"category\": {\n                \"id\": 11,\n                \"name\": \"Nướng\",\n                \"img\": \"https://thegangs.onha.vn/images/repo/Tomahawk%20Beef%20890k%20(%201kg%20).jpg\"\n            },\n            \"items\": [\n                {\n                    \"id\": 1101,\n                    \"catId\": 11,\n                    \"name\": \"Đùi cừu nướng\",\n                    \"price\": 299000,\n                    \"description\": \"Đùi cừu nướng trọng lương 300gr\",\n                    \"options\": [\n                        {\n                            \"id\": 110101,\n                            \"itemId\": 1101,\n                            \"name\": \"Nướng ngói\",\n                            \"description\": \"\"\n                        },\n                        {\n                            \"id\": 110102,\n                            \"itemId\": 1101,\n                            \"name\": \"Nướng lu\",\n                            \"description\": \"\"\n                        }\n                    ]\n                },\n                {\n                    \"id\": 1102,\n                    \"catId\": 11,\n                    \"name\": \"Mực nướng sa tế / muối ớt\",\n                    \"price\": 239000,\n                    \"description\": \"200gr\",\n                    \"options\": [\n                        {\n                            \"id\": 110201,\n                            \"itemId\": 1102,\n                            \"name\": \"Sa tế\",\n                            \"description\": \"\"\n                        },\n                        {\n                            \"id\": 110202,\n                            \"itemId\": 1102,\n                            \"name\": \"Muối ớt\",\n                            \"description\": \"\"\n                        }\n                    ]\n                },\n                {\n                    \"id\": 1103,\n                    \"catId\": 11,\n                    \"name\": \"Rau củ nướng\",\n                    \"price\": 70000,\n                    \"description\": \"210gr\"\n                }\n            ]\n        },\n        {\n            \"category\": {\n                \"id\": 22,\n                \"name\": \"Lẩu\",\n                \"img\": \"https://thegangs.onha.vn/images/repo/91647914_505934110315337_91887878950354944_n.jpg\"\n            },\n            \"items\": [\n                {\n                    \"id\": 2201,\n                    \"catId\": 22,\n                    \"name\": \"Lẩu cá hồi\",\n                    \"price\": 199000,\n                    \"description\": \"cho 2 người ăn\"\n                },\n                {\n                    \"id\": 2202,\n                    \"catId\": 22,\n                    \"name\": \"Lẩu cá kèo\",\n                    \"price\": 160000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 2203,\n                    \"catId\": 22,\n                    \"name\": \"Lẩu cá thác lác\",\n                    \"price\": 179000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 2204,\n                    \"catId\": 22,\n                    \"name\": \"Lẩu cá đuối\",\n                    \"price\": 229000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 2205,\n                    \"catId\": 22,\n                    \"name\": \"Lẩu cá ba sa\",\n                    \"price\": 129000,\n                    \"description\": \"\"\n                }\n            ]\n        },\n        {\n            \"category\": {\n                \"id\": 33,\n                \"name\": \"Cơm chiên\",\n                \"img\": \"https://thegangs.onha.vn/images/repo/com%20toi%20chiren.jpg\"\n            },\n            \"items\": [\n                {\n                    \"id\": 3301,\n                    \"catId\": 33,\n                    \"name\": \"Cơm chiên cá mặn\",\n                    \"price\": 199000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 3302,\n                    \"catId\": 33,\n                    \"name\": \"Cơm chiên hải sản\",\n                    \"price\": 1890000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 3303,\n                    \"catId\": 33,\n                    \"name\": \"Cơm chiên tỏi ớt\",\n                    \"price\": 279000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 3304,\n                    \"catId\": 33,\n                    \"name\": \"Cơm chiên dương châu\",\n                    \"price\": 159000,\n                    \"description\": \"\"\n                }\n            ]\n        },\n        {\n            \"category\": {\n                \"id\": 44,\n                \"name\": \"Lai rai\",\n                \"img\": \"https://pasgo.vn/Upload/anh-chi-tiet/nha-hang-cot-dien-kitchen-quan-10-slide-2-normal-131443816152.jpg\"\n            },\n            \"items\": [\n                {\n                    \"id\": 4401,\n                    \"catId\": 44,\n                    \"name\": \"Súp cá hồi NaUy\",\n                    \"price\": 369000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 4402,\n                    \"catId\": 44,\n                    \"name\": \"Súp kim chi hải sản\",\n                    \"price\": 259000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 4403,\n                    \"catId\": 44,\n                    \"name\": \"Sụn gà nướng sa tế\",\n                    \"price\": 119000,\n                    \"description\": \"\"\n                }\n            ]\n        },\n        {\n            \"category\": {\n                \"id\": 55,\n                \"name\": \"Các món rau\",\n                \"img\": \"https://thegangs.onha.vn/images/repo/91501307_206649113974931_3254321618104614912_n.jpg\"\n            },\n            \"items\": [\n                {\n                    \"id\": 5501,\n                    \"catId\": 55,\n                    \"name\": \"Đậu bắp nướng chao\",\n                    \"price\": 59000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 5502,\n                    \"catId\": 55,\n                    \"name\": \"Cà tím xào rượu vang\",\n                    \"price\": 129000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 5503,\n                    \"catId\": 55,\n                    \"name\": \"Khổ qua xào\",\n                    \"price\": 189000,\n                    \"description\": \"\",\n                    \"options\": [\n                        {\n                            \"id\": 550301,\n                            \"itemId\": 5503,\n                            \"name\": \"Xào trứng\",\n                            \"description\": \"\"\n                        },\n                        {\n                            \"id\": 550302,\n                            \"itemId\": 5503,\n                            \"name\": \"Chà bông\",\n                            \"description\": \"\"\n                        }\n                    ]\n                },\n                {\n                    \"id\": 5504,\n                    \"catId\": 55,\n                    \"name\": \"Măng tây xào\",\n                    \"price\": 229000,\n                    \"description\": \"\",\n                    \"options\": [\n                        {\n                            \"id\": 550401,\n                            \"itemId\": 5504,\n                            \"name\": \"Xào tỏi\",\n                            \"description\": \"\"\n                        },\n                        {\n                            \"id\": 550402,\n                            \"itemId\": 5504,\n                            \"name\": \"Xào bò mỹ\",\n                            \"description\": \"\"\n                        }\n                    ]\n                }\n            ]\n        },\n        {\n            \"category\": {\n                \"id\": 66,\n                \"name\": \"Các món khác\",\n                \"img\": \"https://pasgo.vn/Upload/anh-chi-tiet/nha-hang-cot-dien-kitchen-quan-10-slide-8-normal-131444416158.jpg\"\n            },\n            \"items\": [\n                {\n                    \"id\": 6601,\n                    \"catId\": 66,\n                    \"name\": \"Mực hấp me\",\n                    \"price\": 299000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 6602,\n                    \"catId\": 66,\n                    \"name\": \"Giò heo chiên giòn\",\n                    \"price\": 139000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 6603,\n                    \"catId\": 66,\n                    \"name\": \"Đậu hủ sốt cay\",\n                    \"price\": 119000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 6604,\n                    \"catId\": 66,\n                    \"name\": \"Ba rọi sả tắc\",\n                    \"price\": 119000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 6605,\n                    \"catId\": 66,\n                    \"name\": \"Tôm sú cháy tỏi\",\n                    \"price\": 229000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 6606,\n                    \"catId\": 66,\n                    \"name\": \"Sasimi cá hồi Nauy\",\n                    \"price\": 249000,\n                    \"description\": \"\"\n                }\n            ]\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dlocal}}/menu/1",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"menu",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Identity",
+			"item": [
+				{
+					"name": "Get List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dlocal}}/identity",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"identity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Identity",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"action\": \"GENERATE_KEY\",\n    \"slotNumber\": \"2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dlocal}}/identity",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"identity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Parse Identity Key",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"action\": \"PARSE_KEY\",\n    \"strKey\": \"c77ca58b8aa8b4552ef71f21ae17e63647a92e920373f645c5c43a2642585e1d6f6fb6ee816eb6780300a98d44284566ac9b4406a8f3cc79cb98954f6c1492f2a3ae837e31ea61856a533bd93e7ecff7120cad1ab01bc659ffea79da486e3c9cc3cd9dcf0fc727861a28972e\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dlocal}}/identity",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"identity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"configs\": [\n        {\n            \"category\": {\n                \"id\": 901,\n                \"name\": \"Nướng\",\n                \"img\": \"https://thegangs.onha.vn/images/repo/Tomahawk%20Beef%20890k%20(%201kg%20).jpg\"\n            },\n            \"items\": [\n                {\n                    \"id\": 101,\n                    \"catId\": 901,\n                    \"name\": \"Đùi cừu nướng\",\n                    \"price\": 299000,\n                    \"description\": \"Đùi cừu nướng trọng lương 300gr\",\n                    \"options\": [\n                        {\n                            \"id\": 10101,\n                            \"itemId\": 101,\n                            \"name\": \"Nướng ngói\",\n                            \"description\": \"\"\n                        },\n                        {\n                            \"id\": 10102,\n                            \"itemId\": 101,\n                            \"name\": \"Nướng lu\",\n                            \"description\": \"\"\n                        }\n                    ]\n                },\n                {\n                    \"id\": 102,\n                    \"catId\": 901,\n                    \"name\": \"Mực nướng sa tế / muối ớt\",\n                    \"price\": 239000,\n                    \"description\": \"200gr\",\n                    \"options\": [\n                        {\n                            \"id\": 10201,\n                            \"itemId\": 102,\n                            \"name\": \"Sa tế\",\n                            \"description\": \"\"\n                        },\n                        {\n                            \"id\": 10202,\n                            \"itemId\": 102,\n                            \"name\": \"Muối ớt\",\n                            \"description\": \"\"\n                        }\n                    ]\n                },\n                {\n                    \"id\": 103,\n                    \"catId\": 901,\n                    \"name\": \"Rau củ nướng\",\n                    \"price\": 70000,\n                    \"description\": \"210gr\"\n                }\n            ]\n        },\n        {\n            \"category\": {\n                \"id\": 902,\n                \"name\": \"Lẩu\",\n                \"img\": \"https://thegangs.onha.vn/images/repo/91647914_505934110315337_91887878950354944_n.jpg\"\n            },\n            \"items\": [\n                {\n                    \"id\": 201,\n                    \"catId\": 902,\n                    \"name\": \"Lẩu cá hồi\",\n                    \"price\": 199000,\n                    \"description\": \"cho 2 người ăn\"\n                },\n                {\n                    \"id\": 202,\n                    \"catId\": 902,\n                    \"name\": \"Lẩu cá kèo\",\n                    \"price\": 160000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 203,\n                    \"catId\": 902,\n                    \"name\": \"Lẩu cá thác lác\",\n                    \"price\": 179000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 204,\n                    \"catId\": 902,\n                    \"name\": \"Lẩu cá đuối\",\n                    \"price\": 229000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 205,\n                    \"catId\": 902,\n                    \"name\": \"Lẩu cá ba sa\",\n                    \"price\": 129000,\n                    \"description\": \"\"\n                }\n            ]\n        },\n        {\n            \"category\": {\n                \"id\": 903,\n                \"name\": \"Cơm chiên\",\n                \"img\": \"https://thegangs.onha.vn/images/repo/com%20toi%20chiren.jpg\"\n            },\n            \"items\": [\n                {\n                    \"id\": 301,\n                    \"catId\": 903,\n                    \"name\": \"Cơm chiên cá mặn\",\n                    \"price\": 199000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 302,\n                    \"catId\": 903,\n                    \"name\": \"Cơm chiên hải sản\",\n                    \"price\": 1890000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 303,\n                    \"catId\": 903,\n                    \"name\": \"Cơm chiên tỏi ớt\",\n                    \"price\": 279000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 304,\n                    \"catId\": 903,\n                    \"name\": \"Cơm chiên dương châu\",\n                    \"price\": 159000,\n                    \"description\": \"\"\n                }\n            ]\n        },\n        {\n            \"category\": {\n                \"id\": 904,\n                \"name\": \"Súp\",\n                \"img\": \"https://thegangs.onha.vn/images/repo/goi%20hs.jpg\"\n            },\n            \"items\": [\n                {\n                    \"id\": 401,\n                    \"catId\": 904,\n                    \"name\": \"Súp cá hồi NaUy\",\n                    \"price\": 369000,\n                    \"description\": \"\"\n                },\n                {\n                    \"id\": 402,\n                    \"catId\": 904,\n                    \"name\": \"Súp kim chi hải sản\",\n                    \"price\": 259000,\n                    \"description\": \"\"\n                }\n            ]\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dlocal}}/identity/1",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"identity",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "Get List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dlocal}}/notifications",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dlocal}}/notifications/1",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"notifications",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"This notification content 1\",\n    \"type\": \"notify\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dlocal}}/notifications",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"This notification content 1.1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dlocal}}/notifications/1",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"notifications",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"isDeleted\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dlocal}}/notifications/28",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"notifications",
+								"28"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "UserRoles",
+			"item": [
+				{
+					"name": "Get List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{dlocal}}/user-roles",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"user-roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": 1,\n    \"roles\": \"[\\\"admin\\\",\\\"*\\\",\\\"manager:*\\\",\\\"*:find\\\",\\\"help:get\\\"]\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dlocal}}/user-roles",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"user-roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": 1,\n    \"roles\": \"[\\\"admin\\\",\\\"*\\\",\\\"manager:*\\\",\\\"*:find\\\",\\\"help:get\\\"]\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dlocal}}/user-roles/2",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"user-roles",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Report",
+			"item": [
+				{
+					"name": "Gas Sensor Data Download Buffer",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dlocal}}/gas-sensor-data-download/1",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"gas-sensor-data-download",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"strategy\": \"local\",\n    \"email\": \"huunghia1810@gmail.com\",\n\t\"password\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{dlocal}}/authentication",
+					"host": [
+						"{{dlocal}}"
+					],
+					"path": [
+						"authentication"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
