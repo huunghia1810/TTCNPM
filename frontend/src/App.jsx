@@ -17,16 +17,29 @@ import './assets/styles/responsive.css'
 //import actions
 import ActionIdentity from './actions/Identity'
 import ActionCart from './actions/Cart'
+import ActionMenu from './actions/Menu'
 
 const App = props => {
   const dispatch = useDispatch()
 
+  //store
+  const storeMenu = useSelector(state => state.Menu) || {}
   const storeIdentity = useSelector(state => state.Identity) || {}
 
   useEffect(() => {
     dispatch(ActionIdentity.generateIdentity()) //if not exist slot number -> generate & set in localStorage
     dispatch(ActionCart.generateCart())
   },[])
+
+  useEffect(() => {
+    if(!Object.keys(storeMenu.configs).length) {
+      dispatch(ActionMenu.getMenu())
+    }
+  }, [])
+
+  useEffect(() => {
+    console.log(`menu configs`, storeMenu)
+  }, [storeMenu])
 
   useEffect(() => {
     if(!_.isNull(storeIdentity.identityKey)) {

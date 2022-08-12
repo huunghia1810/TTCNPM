@@ -4,158 +4,168 @@ import moment from 'moment'
 //import react & relations
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
+import {Link, useHistory} from 'react-router-dom'
 
 //import UI libs
-import {Card, Col, Row, Button, Table, Avatar, Typography, Form, Input, Switch} from 'antd'
+import {Card, Col, Row, Button, Descriptions, Typography, Form, Input, Switch} from 'antd'
 
 //import assets
 import avatarDummyImg from "../assets/images/avatar-dummy.jpg";
-import {Link} from 'react-router-dom'
 
 //import components
+
+//import actions
+import ActionMenu from '../actions/Menu'
+import ActionCart from '../actions/Cart'
 
 //init info
 const { Title } = Typography;
 
 
 const Home = props => {
-  const columns = [
-    {
-      title: "AUTHOR",
-      dataIndex: "name",
-      key: "name",
-      width: "32%",
-    },
-    {
-      title: "FUNCTION",
-      dataIndex: "function",
-      key: "function",
-    },
+  const history = useHistory()
+  const dispatch = useDispatch()
 
-    {
-      title: "STATUS",
-      key: "status",
-      dataIndex: "status",
-    },
-    {
-      title: "EMPLOYED",
-      key: "employed",
-      dataIndex: "employed",
-    },
-  ];
-  const data = [
-    {
-      key: "1",
-      name: (
-        <>
-          <Avatar.Group>
-            <Avatar
-              className="shape-avatar"
-              shape="square"
-              size={40}
-              src={avatarDummyImg}
-            ></Avatar>
-            <div className="avatar-info">
-              <Title level={5}>Michael John</Title>
-              <p>michael@mail.com</p>
+  //state
+  const [htmlCartItem, setHtmlCartItem] = useState(null)
+  const [total, setTotal] = useState(0)
+
+  //store
+  const storeMenu = useSelector(state => state.Menu) || {}
+  const storeCart = useSelector(state => state.Cart) || {}
+
+  useEffect(() => {
+    if(Object.keys(storeMenu.configs).length) {
+      handleRender()
+    }
+  }, [])
+
+  useEffect(() => {
+    if(Object.keys(storeMenu.configs).length) {
+      handleRender()
+    }
+  }, [storeMenu, storeCart])
+
+  //handlers
+  const handleRemoveItem = item => {
+    const {id} = item
+    let items = _.get(storeCart, 'info.items') || []
+    items = items.filter(i => i.id != item.id)
+    try {
+      const cartInfo = {...storeCart.info}
+      cartInfo.items = [...items]
+      dispatch(ActionCart.setCart(cartInfo))
+    } catch (e) {
+      console.log(`handleRemoveItem error: ${e.message}`)
+    }
+  }
+  const calculateTotal = () => {
+    let numTotal = 0
+    const items = _.get(storeCart, 'info.items') || []
+    items.map(item => {
+      const curItemInfo = ActionMenu.getMenuItemById(item.id, storeMenu.configs)
+      let curTotalQuantity = 0
+      if(Array.isArray(item.quantity)) {
+        item.quantity.map(q => {
+          curTotalQuantity += parseInt(q.quantity)
+        })
+      } else {
+        curTotalQuantity += parseInt(item.quantity)
+      }
+      numTotal += curItemInfo.price * curTotalQuantity
+    })
+    setTotal(numTotal)
+  }
+  const handleRender = () => {
+    calculateTotal()
+    handleRenderCartItem()
+  }
+  const handleRenderCartItem = () => {
+    const items = _.get(storeCart, 'info.items') || []
+
+    const tmpHtml = items.map((item, index) => {
+      const curItemInfo = ActionMenu.getMenuItemById(item.id, storeMenu.configs)
+
+      return (
+        <Col span={24} key={index}>
+          <Card className="card-billing-info cart-item" bordered="false">
+            <div className="col-info">
+              <Descriptions title={curItemInfo.name}>
+                <Descriptions.Item label="Name" span={3}>
+                  <span style={{color: '#1890ff'}}>{curItemInfo.name}</span>
+                </Descriptions.Item>
+                <Descriptions.Item label="Price" span={3}>
+                  {curItemInfo.price.toLocaleString()}
+                </Descriptions.Item>
+                {
+                  Array.isArray(item.quantity) ? (
+                    <Descriptions.Item label="Option(s)" span={3}>
+                      {
+                        item.quantity.map(q => {
+                          const curOptions = curItemInfo.options.find(op => op.id == q.id)
+                          return (
+                            <div key={index}><span>{curOptions.name}:</span> <span className="text-danger">{q.quantity}</span></div>
+                          )
+                        })
+                      }
+                    </Descriptions.Item>
+                  ) : (
+                    <Descriptions.Item label="Quantity" span={3}>
+                      <p className="text-danger">{item.quantity}</p>
+                    </Descriptions.Item>
+                  )
+                }
+                {
+                  item.note && (
+                      <Descriptions.Item label="Note" span={3}>
+                        {item.note}
+                      </Descriptions.Item>
+                  )
+                }
+              </Descriptions>
             </div>
-          </Avatar.Group>{" "}
-        </>
-      ),
-      function: (
-        <>
-          <div className="author-info">
-            <Title level={5}>Manager</Title>
-            <p>Organization</p>
-          </div>
-        </>
-      ),
-
-      status: (
-        <>
-          <Button type="primary" className="tag-primary">
-            ONLINE
-          </Button>
-        </>
-      ),
-      employed: (
-        <>
-          <div className="ant-employed">
-            <span>23/04/18</span>
-            <a href="#pablo">Edit</a>
-          </div>
-        </>
-      ),
-    },
-
-    {
-      key: "2",
-      name: (
-        <>
-          <Avatar.Group>
-            <Avatar
-              className="shape-avatar"
-              shape="square"
-              size={40}
-              src={avatarDummyImg}
-            ></Avatar>
-            <div className="avatar-info">
-              <Title level={5}>Alexa Liras</Title>
-              <p>alexa@mail.com</p>
+            <div className="col-action">
+              <Button type="link" danger onClick={() => handleRemoveItem(item)}>
+                REMOVE
+              </Button>
             </div>
-          </Avatar.Group>{" "}
-        </>
-      ),
-      function: (
-        <>
-          <div className="author-info">
-            <Title level={5}>Programator</Title>
-            <p>Developer</p>
-          </div>
-        </>
-      ),
+          </Card>
+        </Col>
+      )
+    })
 
-      status: (
-        <>
-          <Button className="tag-badge">ONLINE</Button>
-        </>
-      ),
-      employed: (
-        <>
-          <div className="ant-employed">
-            <span>23/12/20</span>
-            <a href="#pablo">Edit</a>
-          </div>
-        </>
-      ),
-    },
-  ]
+    setHtmlCartItem(tmpHtml)
+  }
 
-  return (
+  return (_.get(storeCart, 'info.items') || []).length ? (
     <>
         <Row gutter={[24, 0]}>
           <Col xs={{ span: 22, offset: 1 }}
-                 lg={{ span: 11, offset: 1 }}
+                 lg={{ span: 15, offset: 1 }}
                  md={{ span: 22, offset: 1 }}
             >
             <Card
+              className="header-solid h-full cart-list"
               bordered={false}
-              className="criclebox tablespace mb-24"
-              /*title="Authors Table"*/
+              title={<h6 className="font-semibold m-0">Cart Information</h6>}
+              bodyStyle={{ paddingTop: "0" }}
             >
-              <div className="table-responsive">
-                <Table
-                  columns={columns}
-                  dataSource={data}
-                  pagination={false}
-                  className="ant-border-space"
-                />
-              </div>
+              <Row gutter={[24, 24]}>
+                {htmlCartItem}
+                <Col className="cart-total-content" span={24}>
+                  <Card className="card-billing-info cart-item cart-item-right" bordered="false">
+                    <div className="col-info">
+                      <Descriptions className="text-danger" title={'Total: ' + total.toLocaleString() + ' VND'}>
+                      </Descriptions>
+                    </div>
+                  </Card>
+                </Col>
+              </Row>
             </Card>
           </Col>
 
           <Col xs={{ span: 22, offset: 1 }}
-               lg={{ span: 11, offset: 0}}
+               lg={{ span: 7, offset: 0}}
                md={{ span: 22, offset: 1 }}
           >
             <Card
@@ -198,6 +208,18 @@ const Home = props => {
           </Col>
         </Row>
     </>
+  ) : (
+    <Row gutter={[24, 0]}>
+      <Col xs={{ span: 22, offset: 1 }}
+           lg={{ span: 22, offset: 1 }}
+           md={{ span: 22, offset: 1 }}
+      >
+        <div style={{textAlign: 'center', margin: 50}}>
+          <h2>Not found any items</h2>
+          <Button type='primary' onClick={() => history.push('/')}>Go Home</Button>
+        </div>
+      </Col>
+    </Row>
   )
 }
 
