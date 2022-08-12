@@ -17,7 +17,7 @@ import './assets/styles/responsive.css'
 //import actions
 import ActionIdentity from './actions/Identity'
 import ActionCart from './actions/Cart'
-import Admin from './pages/Admin'
+import Admin from './pages/admin/Admin'
 
 const App = props => {
   const dispatch = useDispatch()

@@ -22,6 +22,7 @@ import {
   Rate,
   Input,
   Button,
+  Form,
 } from "antd";
 import { feedbackImg } from "../assets/images";
 import "./../assets/styles/feedback.css";
@@ -47,7 +48,9 @@ const { Title, Text } = Typography;
 const Rating = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
-
+  const onFinish = (values) => {
+    console.log("Received values of form: ", values);
+  };
   return (
     <>
       <Content className="feedback">
@@ -109,24 +112,37 @@ const Rating = (props) => {
                     <Title level={4}>
                       Quý khách cảm thấy như thế nào về đơn hàng này?
                     </Title>
-                    <Rate
-                      defaultValue={4}
-                      style={{ fontSize: "50px" }}
-                      character={({ index }) => customIcons[index + 1]}
-                    />
-                    <TextArea
-                      style={{ marginTop: "20px", marginBottom: "20px" }}
-                      rows={4}
-                      placeholder="Vui lòng nói cho chúng tôi biết tại sao bạn đánh giá như thế"
-                    />
-                    <Button
-                      type="primary"
-                      icon={<SendOutlined />}
-                      shape="round"
-                      block
+                    <Form
+                      name="validate_other"
+                      onFinish={onFinish}
+                      initialValues={{
+                      }}
                     >
-                      Gửi feedback
-                    </Button>
+                      <Form.Item name="rate" rules={[{ required: true, message: 'Please select your rate!' }]}>
+                        <Rate
+                          style={{ fontSize: "50px" }}
+                          character={({ index }) => customIcons[index + 1]}
+                        />
+                      </Form.Item>
+                      <Form.Item name="note">
+                        <TextArea
+                          style={{ marginTop: "10px", marginBottom: "20px" }}
+                          rows={4}
+                          placeholder="Vui lòng nói cho chúng tôi biết tại sao bạn đánh giá như thế"
+                        />
+                      </Form.Item>
+                      <Form.Item>
+                        <Button
+                          type="primary"
+                          icon={<SendOutlined />}
+                          shape="round"
+                          htmlType="submit"
+                          block
+                        >
+                          Gửi feedback
+                        </Button>
+                      </Form.Item>
+                    </Form>
                   </div>
                 </div>
               </Col>

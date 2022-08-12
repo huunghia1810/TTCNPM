@@ -4,11 +4,11 @@ import _ from "lodash";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import "./../assets/styles/admin.css";
+import "./../../assets/styles/admin.css";
 
 //import UI libs
 import { Col, Row, Layout, Form, Input, Button, Card } from "antd";
-import MyFooter from "../components/layout/Footer";
+import MyFooter from "../../components/layout/Footer";
 import { KeyOutlined } from "@ant-design/icons";
 
 const { Content, Footer } = Layout;
@@ -23,7 +23,7 @@ const history = useHistory()
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-  const onDoubleClick = () => history.push('/order')
+  const onDoubleClick = () => history.push('/order-management')
   return (
     <Layout className="container login-admin">
       <Content>
