@@ -1,0 +1,36 @@
+.col-feedback {
+  padding: 50px 80px;
+}
+.feedback {
+  margin-bottom: 50px;
+  margin-top: 0px;
+}
+.form-feedback {
+  padding: 0 80px;
+}
+.card-feedback {
+  background-color: white;
+  box-shadow: 0 10px 17px rgb(0 0 0 / 5%);
+  padding: 50px;
+}
+.card-order {
+  border-radius: 10px;
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid gainsboro;
+}
+.img-food-box {
+  width: 100%;
+}
+.img-food {
+  border-radius: 100px;
+
+  height: auto;
+  width: 100px;
+  object-fit: contain;
+}
+.detail-food{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
