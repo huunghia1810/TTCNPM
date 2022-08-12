@@ -17,6 +17,7 @@ import './assets/styles/responsive.css'
 //import actions
 import ActionIdentity from './actions/Identity'
 import ActionCart from './actions/Cart'
+import Admin from './pages/Admin'
 
 const App = props => {
   const dispatch = useDispatch()
@@ -39,6 +40,7 @@ const App = props => {
     <div className='App'>
       <Router>
         <Switch>
+          <Route path='/admin' exact component={Admin}></Route>
           <Route path={'/:entity'} component={Main} />
           <Route path='/' exact component={Main}></Route>
           <Route component={PageNotFound} />
