@@ -1,7 +1,7 @@
 /* See hooks document: https://docs.feathersjs.com/guides/basics/hooks.html */
 const _ = require('lodash')
 
-module.exports = function menuPrepareData(options = {roles: []}) {
+module.exports = function menuPrepareData(options = {}) {
   return async (context) => {
     try {
       const { app, data, params: { user } } = context

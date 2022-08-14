@@ -3,13 +3,69 @@
 const Sequelize = require('sequelize');
 const DataTypes = Sequelize.DataTypes;
 
+const ORDER_STATUS = {
+  DRAFT: 'DRAFT',
+  NEW: 'NEW',
+  PREPARING: 'PREPARING',
+  WAITING_REVIEW: 'WAITING_REVIEW',
+  DONE: 'DONE',
+}
+
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
   const orders = sequelizeClient.define('orders', {
-    text: {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    slotNumber: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        min: 0,
+        max: 10,
+      }
+    },
+    cartInfo: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    customerName: {
       type: DataTypes.STRING,
-      allowNull: false
-    }
+      allowNull: true,
+      validate: {
+        len: [1,255],
+      }
+    },
+    customerPhone: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        //is: ['[a-z]','i'],        // will only allow letters
+        //max: 12,                  // only allow values <= 23
+        len: [10,12],
+        is: /^\d*$/,
+        // isIn: {
+        //   args: [['en', 'zh']],
+        //   msg: "Must be English or Chinese"
+        // }
+      }
+    },
+    status: {
+      type: DataTypes.ENUM(ORDER_STATUS.DRAFT, ORDER_STATUS.NEW, ORDER_STATUS.PREPARING, ORDER_STATUS.WAITING_REVIEW, ORDER_STATUS.DONE),
+      allowNull: false,
+      defaultValue: ORDER_STATUS.NEW,
+    },
+    isDeleted: {
+      type: DataTypes.ENUM(1, 0),
+      allowNull: false,
+      defaultValue: 0,
+    },
+    createdBy: {
+      type: DataTypes.INTEGER,
+      field: 'createdBy'
+    },
   }, {
     hooks: {
       beforeCount(options) {
@@ -22,6 +78,11 @@ module.exports = function (app) {
   orders.associate = function (models) {
     // Define associations here
     // See https://sequelize.org/master/manual/assocs.html
+    orders.hasOne(models.users, { //devices.createdBy = users.id
+      as: 'user',
+      sourceKey: 'createdBy',
+      foreignKey: 'id',
+    })
   };
 
   return orders;
