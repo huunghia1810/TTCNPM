@@ -7,28 +7,43 @@ import {useDispatch, useSelector} from 'react-redux'
 import {Link, useHistory} from 'react-router-dom'
 
 //import UI libs
-import {Card, Col, Row, Button, Descriptions, Typography, Form, Input, Switch} from 'antd'
+import {Card, Col, Row, Button, Descriptions, Typography, Form, Input, Select} from 'antd'
 
 //import assets
 import avatarDummyImg from "../assets/images/avatar-dummy.jpg";
 
 //import components
+import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
+import NotificationDialogs from '../components/NotificationDialogs/NotificationDialogs'
 
 //import actions
 import ActionMenu from '../actions/Menu'
 import ActionCart from '../actions/Cart'
+import Order from '../actions/Order'
+
+
+//import constants
+import * as constantOrder from '../constants/Order'
 
 //init info
-const { Title } = Typography;
-
+const { Title } = Typography
+const { Option } = Select
+const { ORDER_STATUS } = constantOrder
+const [errorNotificationDialogs, successNotificationDialogs] = NotificationDialogs(['error', 'success'])
 
 const Home = props => {
   const history = useHistory()
   const dispatch = useDispatch()
+  const [form] = Form.useForm()
 
   //state
   const [htmlCartItem, setHtmlCartItem] = useState(null)
   const [total, setTotal] = useState(0)
+  const [onSubmit, setOnSubmit] = useState(false)
+  const [userInfo, setUserInfo] = useState({
+    fullName: '',
+    phone: '',
+  })
 
   //store
   const storeMenu = useSelector(state => state.Menu) || {}
@@ -38,6 +53,7 @@ const Home = props => {
     if(Object.keys(storeMenu.configs).length) {
       handleRender()
     }
+    handleDefaultUserInfo()
   }, [])
 
   useEffect(() => {
@@ -47,8 +63,40 @@ const Home = props => {
   }, [storeMenu, storeCart])
 
   //handlers
+  const onSubmitForm = async values => {
+    setOnSubmit(true)
+    const dataPrepared = values
+    debugger
+    dispatch(Order.sendOrder(dataPrepared, handleSubmitDone.bind(this)))
+  }
+  const onSubmitFormFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo)
+  }
+  const handleSubmitDone = (status = false, data) => {
+    if(status) { //success
+      const cartInfo = {...storeCart.info}
+      cartInfo.status = ORDER_STATUS.NEW
+      dispatch(ActionCart.setCart(cartInfo))
+    } else { //fail
+      errorNotificationDialogs.show({
+        message: 'Submit fail',
+        description: `${data.message}`,
+        placement: 'top',
+        duration: 1.5,
+      })
+    }
+    setOnSubmit(false)
+  }
+
+  const handleDefaultUserInfo = () => {
+    try {
+      const defaultFormValue = {}
+      defaultFormValue.phone = defaultFormValue.phone.substr(2)
+
+      form.setFieldsValue(defaultFormValue)
+    } catch (e) {}
+  }
   const handleRemoveItem = item => {
-    const {id} = item
     let items = _.get(storeCart, 'info.items') || []
     items = items.filter(i => i.id != item.id)
     try {
@@ -137,6 +185,16 @@ const Home = props => {
     setHtmlCartItem(tmpHtml)
   }
 
+  //render
+  const prefixSelector = (
+    <Form.Item name="phonePrefix" noStyle>
+      <Select disabled={true} style={{ width: 70 }}>
+        <Option value="84">+84</Option>
+      </Select>
+    </Form.Item>
+  )
+  const htmlSpin = onSubmit ? <LoadingSpinner/> : null
+
   return (_.get(storeCart, 'info.items') || []).length ? (
     <>
         <Row gutter={[24, 0]}>
@@ -147,7 +205,7 @@ const Home = props => {
             <Card
               className="header-solid h-full cart-list"
               bordered={false}
-              title={<h6 className="font-semibold m-0">Cart Information</h6>}
+              title={<h6 className="font-semibold m-0">Cart Info</h6>}
               bodyStyle={{ paddingTop: "0" }}
             >
               <Row gutter={[24, 24]}>
@@ -164,47 +222,56 @@ const Home = props => {
             </Card>
           </Col>
 
-          <Col xs={{ span: 22, offset: 1 }}
+          <Col className="tabled" xs={{ span: 22, offset: 1 }}
                lg={{ span: 7, offset: 0}}
                md={{ span: 22, offset: 1 }}
           >
-            <Card
-              bordered={false}
-              className="criclebox tablespace mb-24"
+            {htmlSpin}
+            <Title className="mb-15" level={4}>User info</Title>
+            {/*<Title className="font-regular text-muted" level={5}>
+              Enter your email and password to sign in
+            </Title>*/}
+            <Form
+              form={form}
+              name='UserInfoForm'
+              layout="vertical"
+              className="row-col"
+              initialValues={{ ...userInfo, phonePrefix: '84' }}
+              onFinish={onSubmitForm}
+              onFinishFailed={onSubmitFormFailed}
             >
-              <Title className="mb-15">Sign In</Title>
-              <Title className="font-regular text-muted" level={5}>
-                Enter your email and password to sign in
-              </Title>
-              <Form
-                layout="vertical"
-                className="row-col"
+              <Form.Item
+                name='fullName'
+                rules={[
+                  { required: true, message: 'Please input your name!' },
+                  { pattern: /^[A-Za-z0-9 ]+$/, message: 'Full Name is invalid' },
+                  { min: 3, message: 'Length of Full name must be >= 3 characters' },
+                ]}
               >
-                <Form.Item
-                  className="username"
-                  label="Email"
-                  name="email"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your email!",
-                    },
-                  ]}
-                >
-                  <Input placeholder="Email" />
-                </Form.Item>
+                <Input disabled={onSubmit} placeholder='Full Name' />
+              </Form.Item>
 
-                <Form.Item>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    style={{ width: "100%" }}
-                  >
-                    SIGN IN
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Card>
+              <Form.Item
+                name="phone"
+                rules={[
+                  { min: 6, max: 8, message: 'Length of Phone number from 8 to 10 characters' },
+                  { pattern: /^\d*$/, message: 'Phone number must be numeric!' },
+                ]}
+              >
+                <Input disabled={onSubmit} addonBefore={prefixSelector}/>
+              </Form.Item>
+
+              <Form.Item>
+                <Button
+                  disabled={onSubmit}
+                  style={{ width: '100px' }}
+                  type='primary'
+                  htmlType='submit'
+                >
+                  Save
+                </Button>
+              </Form.Item>
+            </Form>
           </Col>
         </Row>
     </>
