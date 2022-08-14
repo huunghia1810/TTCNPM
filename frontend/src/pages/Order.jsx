@@ -11,7 +11,8 @@ import {Card, Col, Row, Button, Input, Radio, InputNumber, Space, Typography} fr
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faArrowLeftLong} from '@fortawesome/free-solid-svg-icons'
 
-//import assets
+//import constants
+import * as constantOrder from '../constants/Order'
 
 //import components
 
@@ -21,6 +22,7 @@ import ActionCart from '../actions/Cart'
 //init info
 const { Title } = Typography
 const { TextArea } = Input
+const { ORDER_STATUS } = constantOrder
 
 const Order = props => {
   const history = useHistory()
@@ -74,6 +76,7 @@ const Order = props => {
   const handleAddItemToCart = () => {
     const {info} = storeCart
     info.items = info.items || []
+    info.status = info.status || ORDER_STATUS.DRAFT
 
     const curItem = info.items.find(item => item.id === itemMenuSelected.id)
     if(!curItem) { //note exist any item

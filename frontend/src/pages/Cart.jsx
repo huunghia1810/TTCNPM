@@ -48,6 +48,7 @@ const Home = props => {
   //store
   const storeMenu = useSelector(state => state.Menu) || {}
   const storeCart = useSelector(state => state.Cart) || {}
+  const storeIdentity = useSelector(state => state.Identity) || {}
 
   useEffect(() => {
     if(Object.keys(storeMenu.configs).length) {
@@ -65,8 +66,15 @@ const Home = props => {
   //handlers
   const onSubmitForm = async values => {
     setOnSubmit(true)
-    const dataPrepared = values
-    debugger
+
+    values.phone = `${values.phonePrefix}${values.phone}`
+    values = _.omit(values, ['phonePrefix'])
+
+    const dataPrepared = {
+      identityKey: storeIdentity.identityKey,
+      cartInfo: storeCart.info,
+      customerInfo: values
+    }
     dispatch(Order.sendOrder(dataPrepared, handleSubmitDone.bind(this)))
   }
   const onSubmitFormFailed = (errorInfo) => {
@@ -75,8 +83,16 @@ const Home = props => {
   const handleSubmitDone = (status = false, data) => {
     if(status) { //success
       const cartInfo = {...storeCart.info}
-      cartInfo.status = ORDER_STATUS.NEW
+      cartInfo.status = data.status || ORDER_STATUS.NEW
       dispatch(ActionCart.setCart(cartInfo))
+
+      successNotificationDialogs.show({
+        message: 'Order successfully',
+        description: `Your order was sent, please wait a minutes!`,
+        placement: 'top',
+        duration: 1.5,
+      })
+      setTimeout(() => history.push('/my-orders'), 1550)
     } else { //fail
       errorNotificationDialogs.show({
         message: 'Submit fail',
@@ -135,7 +151,7 @@ const Home = props => {
       const curItemInfo = ActionMenu.getMenuItemById(item.id, storeMenu.configs)
 
       return (
-        <Col span={24} key={index}>
+        <Col span={24} key={'cartItem_' + index}>
           <Card className="card-billing-info cart-item" bordered="false">
             <div className="col-info">
               <Descriptions title={curItemInfo.name}>
@@ -149,10 +165,10 @@ const Home = props => {
                   Array.isArray(item.quantity) ? (
                     <Descriptions.Item label="Option(s)" span={3}>
                       {
-                        item.quantity.map(q => {
+                        item.quantity.map((q, qIndex) => {
                           const curOptions = curItemInfo.options.find(op => op.id == q.id)
                           return (
-                            <div key={index}><span>{curOptions.name}:</span> <span className="text-danger">{q.quantity}</span>&nbsp;&nbsp;</div>
+                            <div key={qIndex}><span>{curOptions.name}:</span> <span className="text-danger">{q.quantity}</span>&nbsp;&nbsp;</div>
                           )
                         })
                       }

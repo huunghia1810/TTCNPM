@@ -2,7 +2,7 @@ import * as constantOrder from '../../constants/Order'
 
 const initialState = {
   fetching: false,
-  listOrders: [],
+  orderInfo: {},
   total: 0,
   limit: 0,
   skip: 0,
@@ -16,21 +16,21 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         fetching: true,
-        listOrders: [],
+        orderInfo: {},
         error: null,
       }
     case constantOrder.ORDER_ADD_DATA_SUCCESS:
       return {
         ...state,
         fetching: false,
-        listOrders: action.payload,
+        orderInfo: action.payload,
         error: null,
       }
     case constantOrder.ORDER_ADD_DATA_FAIL:
       return {
         ...state,
         fetching: false,
-        listOrders: [],
+        orderInfo: {},
         error: action.payload,
       }
 
