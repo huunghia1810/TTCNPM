@@ -24,6 +24,7 @@ import { NavLink, Link } from 'react-router-dom'
 //import assets
 import logoImg from '../../assets/images/logo.png'
 import menuImg from '../../assets/images/menu.png'
+import myOrderImg from '../../assets/images/my-order.png'
 
 //init info
 const { Header } = Layout
@@ -53,7 +54,9 @@ const MyHeader = props => {
     <>
       <Header>
         <div className="header-col header-brand">
-          <img src={logoImg} alt='Order system' width={50} height={50} />
+          <Link to="/">
+            <img src={logoImg} alt='Order system' width={50} height={50} />
+          </Link>
           <span className="header-brand-separator">&nbsp;</span>
         </div>
         <Row style={{width: '100%'}} gutter={[24, 0]}>
@@ -61,6 +64,10 @@ const MyHeader = props => {
             <Link to="/">
               <img src={menuImg} alt='Order system' width={20} height={20} />
               <span> Menu</span>
+            </Link>
+            <Link to="/my-orders">
+              <img src={myOrderImg} alt='My order' width={20} height={20} />
+              <span> My Order</span>
             </Link>
           </Col>
           <Col span={24} md={18} style={{textAlign: 'right'}} className="header-control">

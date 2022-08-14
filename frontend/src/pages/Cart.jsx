@@ -152,7 +152,7 @@ const Home = props => {
                         item.quantity.map(q => {
                           const curOptions = curItemInfo.options.find(op => op.id == q.id)
                           return (
-                            <div key={index}><span>{curOptions.name}:</span> <span className="text-danger">{q.quantity}</span></div>
+                            <div key={index}><span>{curOptions.name}:</span> <span className="text-danger">{q.quantity}</span>&nbsp;&nbsp;</div>
                           )
                         })
                       }

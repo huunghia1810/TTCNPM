@@ -12,6 +12,7 @@ import Footer from "./Footer";
 import Home from "./../../pages/Home";
 import Cart from "./../../pages/Cart";
 import Order from "./../../pages/Order";
+import MyOrder from "./../../pages/MyOrder";
 import Rating from "./../../pages/Rating";
 import PageNotFound from "./../layout/PageNotFound/PageNotFound";
 
@@ -48,6 +49,9 @@ const Main = (props) => {
         break;
       case "order":
         mainComponent = <Order></Order>;
+        break;
+      case "my-orders":
+        mainComponent = <MyOrder></MyOrder>;
         break;
       case "rating":
         mainComponent = <Rating></Rating>;
