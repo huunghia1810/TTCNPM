@@ -1,8 +1,9 @@
 import _ from "lodash";
+import queryString from 'query-string'
 
 //import react & relations
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, {useEffect} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import { useHistory } from "react-router-dom";
 import "./../../assets/styles/admin.css";
 
@@ -11,10 +12,39 @@ import { Col, Row, Layout, Form, Input, Button, Card } from "antd";
 import MyFooter from "../../components/layout/Footer";
 import { KeyOutlined } from "@ant-design/icons";
 
+//import actions
+import ActionUser from '../../actions/User'
+
+//init info
 const { Content, Footer } = Layout;
 
-const Admin = (props) => {
-const history = useHistory()
+const Admin = props => {
+  const history = useHistory()
+  const dispatch = useDispatch()
+
+  //store
+  const User = useSelector(state => state.User) || {}
+
+  const objParams = queryString.parse(props.location.search)
+
+  useEffect(() => {
+    dispatch(ActionUser.checkAuth())
+  },[])
+
+  useEffect(() => {
+    if(Object.keys(User.authInfo).length) {
+      handleRedirect()
+    }
+  },[User])
+
+  //handlers
+  const handleRedirect = () => {
+    if(!_.isUndefined(objParams.redirect) && objParams.redirect !== '/sign-out') {
+      props.history.push(objParams.redirect)
+    } else {
+      props.history.push('/dashboard')
+    }
+  }
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -23,7 +53,8 @@ const history = useHistory()
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-  const onDoubleClick = () => history.push('/order-management')
+  const onDoubleClick = () => history.push('management/order/list')
+
   return (
     <Layout className="container login-admin">
       <Content>

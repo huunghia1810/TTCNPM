@@ -9,14 +9,11 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 //----------import pages---------------
-import Home from "./../../pages/Home";
-import Cart from "./../../pages/Cart";
-import Order from "./../../pages/Order";
-import Rating from "./../../pages/Rating";
+import OrderListManagement from './../../pages/admin/OrderListManagement'
+import OrderDetailManagement from './../../pages/admin/OrderDetailManagement'
 import PageNotFound from "./../layout/PageNotFound/PageNotFound";
 
 //import actions
-import ActionIdentity from "../../actions/Identity";
 
 const { Content } = Layout;
 
@@ -38,19 +35,14 @@ const Main = (props) => {
   //handler
   const handleUpdateMainContent = () => {
     let mainComponent = null;
-    entity = _.isUndefined(entity) ? "home" : entity;
+    entity = _.isUndefined(entity) ? 'home' : entity;
     switch (entity) {
-      case "home":
-        mainComponent = <Home></Home>;
-        break;
-      case "cart":
-        mainComponent = <Cart></Cart>;
-        break;
-      case "order":
-        mainComponent = <Order></Order>;
-        break;
-      case "rating":
-        mainComponent = <Rating></Rating>;
+      case 'order':
+        if(_.isUndefined(action) || (!_.isUndefined(action) && action === 'list')) {
+          mainComponent = <OrderListManagement></OrderListManagement>
+        }else if(action === 'modify') {
+          mainComponent = <OrderDetailManagement></OrderDetailManagement>
+        }
         break;
       default:
         mainComponent = <PageNotFound></PageNotFound>;

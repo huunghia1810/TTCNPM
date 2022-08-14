@@ -4,8 +4,12 @@ import React, {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {Switch, Route, Redirect, BrowserRouter as Router, useHistory} from 'react-router-dom'
 
+//import pages
+import Admin from './pages/admin/Admin'
+
 //import components
 import Main from './components/layout/Main'
+import Management from './components/layout/Management'
 import ModalDialogs from './components/ModalDialogs/ModalDialogs'
 import PageNotFound from './components/layout/PageNotFound/PageNotFound'
 
@@ -14,12 +18,12 @@ import 'antd/dist/antd.css'
 import './assets/styles/main.css'
 import './assets/styles/responsive.css'
 
+//import utils
+  import { UserIsAuthenticated } from './utils/router'
+
 //import actions
 import ActionIdentity from './actions/Identity'
 import ActionCart from './actions/Cart'
-
-import Admin from './pages/admin/Admin'
-
 import ActionMenu from './actions/Menu'
 
 
@@ -56,7 +60,9 @@ const App = props => {
     <div className='App'>
       <Router>
         <Switch>
-          <Route path='/admin' exact component={Admin}></Route>
+          <Route path='/admin' exact component={Admin} />
+          <Route path='/management/:entity/:action/:id' component={UserIsAuthenticated(Management)}></Route>
+          <Route path='/management/:entity' component={UserIsAuthenticated(Management)}></Route>
           <Route path={'/:entity'} component={Main} />
           <Route path='/' exact component={Main}></Route>
           <Route component={PageNotFound} />

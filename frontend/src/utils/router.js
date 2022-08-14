@@ -22,7 +22,7 @@ const UNAUTHED_REDIRECT = 'UNAUTHED_REDIRECT'
  * @return {Component} wrappedComponent
  */
 export const UserIsAuthenticated = connectedRouterRedirect({
-    redirectPath: '/sign-in',
+    redirectPath: '/admin',
     AuthenticatingComponent: LoadingSpinner,
     wrapperDisplayName: 'UserIsAuthenticated',
     // Want to redirect the user when they are done loading and authenticated

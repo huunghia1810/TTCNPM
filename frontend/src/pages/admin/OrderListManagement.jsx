@@ -3,7 +3,7 @@ import { Card, Col, Radio, Row, Table } from "antd";
 import React from "react";
 import { columns, data, dataproject, project } from "./dataOrder";
 
-const OrderManagement = (props) => {
+const OrderListManagement = (props) => {
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   return (
     <div className="tabled">
@@ -42,4 +42,4 @@ const OrderManagement = (props) => {
   );
 };
 
-export default OrderManagement;
+export default OrderListManagement;
