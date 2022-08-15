@@ -40,7 +40,7 @@ const Main = (props) => {
       case 'order':
         if(_.isUndefined(action) || (!_.isUndefined(action) && action === 'list')) {
           mainComponent = <OrderListManagement></OrderListManagement>
-        }else if(action === 'modify') {
+        }else if(action === 'detail') {
           mainComponent = <OrderDetailManagement></OrderDetailManagement>
         }
         break;

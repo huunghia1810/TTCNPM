@@ -16,7 +16,7 @@ import { KeyOutlined } from "@ant-design/icons";
 import ActionUser from '../../actions/User'
 
 //init info
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 const Admin = props => {
   const history = useHistory()
@@ -42,18 +42,18 @@ const Admin = props => {
     if(!_.isUndefined(objParams.redirect) && objParams.redirect !== '/sign-out') {
       props.history.push(objParams.redirect)
     } else {
-      props.history.push('/dashboard')
+      props.history.push('/management/order/list')
     }
   }
 
   const onFinish = (values) => {
-    console.log("Success:", values);
+    const { email, password } = values
+    dispatch(ActionUser.signIn({email, password}))
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-  const onDoubleClick = () => history.push('management/order/list')
 
   return (
     <Layout className="container login-admin">
@@ -75,12 +75,12 @@ const Admin = props => {
               >
                 <Form.Item
                   label="Username"
-                  name="username"
+                  name="email"
                   rules={[
-                    { required: true, message: "Please input your username!" },
+                    { required: true, message: "Please input your email!" },
                   ]}
                 >
-                  <Input />
+                  <Input placeholder='Email' />
                 </Form.Item>
 
                 <Form.Item
@@ -90,13 +90,11 @@ const Admin = props => {
                     { required: true, message: "Please input your password!" },
                   ]}
                 >
-                  <Input.Password />
+                  <Input type="password" placeholder='Password' />
                 </Form.Item>
 
                 <Form.Item>
-                  <Button type="primary" htmlType="submit" block
-                  onDoubleClick={onDoubleClick}
-                  >
+                  <Button type="primary" htmlType="submit" block>
                     Submit
                   </Button>
                 </Form.Item>

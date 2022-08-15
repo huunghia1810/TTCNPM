@@ -3112,3 +3112,11 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
 .h-full.cart-list h6 {
   text-transform: uppercase;
 }
+
+.cart-info-item {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #dddddd5e;
+}
+.cart-info-item:last-child {
+  border-bottom: none;
+}

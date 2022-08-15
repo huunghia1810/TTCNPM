@@ -21,6 +21,39 @@ class ActionOrder {
       })
     }
   }
+
+  getOrders() {
+    return function (dispatch) {
+      dispatch({type: constantOrder.ORDER_GET_DATA_PROCESSING})
+      const query = {
+        query: {
+          $sort: {id: 1},
+          $limit: 1000
+        }
+      }
+
+      feathersClient.service('orders').find(query)
+        .then(response => {
+          dispatch({type: constantOrder.ORDER_GET_DATA_SUCCESS, payload: response})
+        }).catch(error => {
+        dispatch({type: constantOrder.ORDER_GET_DATA_FAIL, payload: error.message})
+      })
+    }
+  }
+
+  updateOrderById(id, objData) {
+    return dispatch => {
+      dispatch({type: constantOrder.ORDER_UPDATE_PROCESSING})
+
+      feathersClient.service('orders').patch(id, objData)
+        .then(response => { //nghianh processing
+          //re-update list orders
+          //dispatch({type: constantOrder.ORDER_UPDATE_SUCCESS, payload: response})
+        }).catch(error => {
+        dispatch({type: constantOrder.ORDER_UPDATE_FAIL, payload: error.message})
+      })
+    }
+  }
 }
 
 export default new ActionOrder()
