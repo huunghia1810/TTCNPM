@@ -15,6 +15,7 @@ import {faArrowLeftLong} from '@fortawesome/free-solid-svg-icons'
 import * as constantOrder from '../constants/Order'
 
 //import components
+import NotificationDialogs from '../components/NotificationDialogs/NotificationDialogs'
 
 //import actions
 import ActionCart from '../actions/Cart'
@@ -23,6 +24,7 @@ import ActionCart from '../actions/Cart'
 const { Title } = Typography
 const { TextArea } = Input
 const { ORDER_STATUS } = constantOrder
+const [successNotificationDialogs] = NotificationDialogs(['success'])
 
 const Order = props => {
   const history = useHistory()
@@ -116,10 +118,15 @@ const Order = props => {
 
     dispatch(ActionCart.setCart({...info}))
 
-    //nghianh processing
+    successNotificationDialogs.show({
+      message: 'Add item to cart successfully',
+      description: ` `,
+      placement: 'top',
+      duration: 1.5,
+    })
     setTimeout(() => {
       history.push('/')
-    }, 200)
+    }, 1550)
   }
   const handleChangeNumber = value => {
     value = _.isNumber(value) ? value : 1

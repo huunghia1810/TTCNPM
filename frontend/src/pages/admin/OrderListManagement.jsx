@@ -6,6 +6,8 @@ import React, {useEffect, useRef, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 
+import feathersClient from './../../feathersClient'
+
 //import UI libs
 import Highlighter from 'react-highlight-words'
 import {Card, Col, Descriptions, Radio, Row, Table, Tag, Dropdown, Menu, Space, Button, Input} from 'antd'
@@ -36,6 +38,11 @@ const OrderListManagement = props => {
 
   useEffect(() => {
     dispatch(ActionOrder.getOrders())
+
+    /*feathersClient.service('orders')
+      .on('patched', message => {
+        handleListenChangeOrders(message)
+      })*/
   }, [])
 
   useEffect(() => {
@@ -45,10 +52,12 @@ const OrderListManagement = props => {
   //handlers
   const onChange = (e) => console.log(`radio checked:${e.target.value}`)
   const handleChangeOrderStatus = (id, status) => {
-    console.log(`handleChangeOrderStatus: `, id, status)
     dispatch(ActionOrder.updateOrderById(id, {status}))
   }
-
+  const handleListenChangeOrders = message => {
+    console.log('handleListenChangeOrders', message, storeOrder.listOrders)
+  }
+  
   //Todo: render tables
   //for filter columns of table
   const getColumnSearchProps = dataIndex => ({
@@ -80,7 +89,6 @@ const OrderListManagement = props => {
             size="small"
             onClick={() => {
               confirm({ closeDropdown: false })
-              debugger
               setSearchText(selectedKeys[0])
               setSearchedColumn(dataIndex)
             }}
@@ -126,6 +134,7 @@ const OrderListManagement = props => {
 
   // table code start
   const columns = [
+    //{title: 'Order Id', dataIndex: 'id', key: 'id', width: '2%'},
     {title: 'Table No', dataIndex: 'tableNo', key: 'tableNo', width: '5%', ...getColumnSearchProps('tableNo')},
     {title: 'Cart Info', dataIndex: 'cartInfo', key: 'cartInfo', width: '35%'},
 
@@ -199,6 +208,7 @@ const OrderListManagement = props => {
 
 
         //prepare render
+        //_tableDataItem.id = order.id
         _tableDataItem.tableNo = order.slotNumber
         _tableDataItem.cartInfo = htmlCartInfo
         _tableDataItem.total = (
@@ -246,8 +256,9 @@ const OrderListManagement = props => {
           .filter(stt => stt != order.status && stt != ORDER_STATUS.DRAFT)
           .map((keyStt, k) => {
             return {
-              key: k,
+              key: keyStt,
               label: (<span onClick={() => handleChangeOrderStatus(order.id, keyStt)}>{keyStt}</span>),
+              //label: (<span>{keyStt}</span>),
             }
           })
 
@@ -255,7 +266,7 @@ const OrderListManagement = props => {
           <>
             <Space size="middle">
               <Dropdown overlay={<Menu
-                items={arrStatusRemain}
+                items={[...arrStatusRemain]}
               />}>
                 <Button className="text-success">
                   <Space>
@@ -301,7 +312,7 @@ const OrderListManagement = props => {
               <Table
                 columns={columns}
                 dataSource={tableData}
-                pagination={{pageSize: 10}}
+                pagination={{pageSize: 2}}
                 className='ant-border-space'
               />
             </div>

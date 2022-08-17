@@ -3,6 +3,9 @@ import _ from 'lodash'
 import * as constantOrder from '../constants/Order'
 
 import feathersClient from './../feathersClient'
+import * as constantCart from '../constants/Cart'
+
+const ORDER_INFO = 'ORDER_INFO'
 
 class ActionOrder {
   
@@ -46,14 +49,26 @@ class ActionOrder {
       dispatch({type: constantOrder.ORDER_UPDATE_PROCESSING})
 
       feathersClient.service('orders').patch(id, objData)
-        .then(response => { //nghianh processing
+        .then(response => {
           //re-update list orders
-          //dispatch({type: constantOrder.ORDER_UPDATE_SUCCESS, payload: response})
+          dispatch({type: constantOrder.ORDER_UPDATE_SUCCESS, payload: response})
         }).catch(error => {
         dispatch({type: constantOrder.ORDER_UPDATE_FAIL, payload: error.message})
       })
     }
   }
+  
+  addOrderToLocalStorage(objOrderInfo) {
+    localStorage.setItem(ORDER_INFO, JSON.stringify(objOrderInfo))
+  }
+
+  setOrder(objOrderInfo) {
+    return dispatch => {
+      this.addOrderToLocalStorage(objOrderInfo)
+      dispatch({type: constantOrder.ORDER_SET_ORDER_INFO_SUCCESS, payload: objOrderInfo})
+    }
+  }
+
 }
 
 export default new ActionOrder()

@@ -19,7 +19,7 @@ import NotificationDialogs from '../components/NotificationDialogs/NotificationD
 //import actions
 import ActionMenu from '../actions/Menu'
 import ActionCart from '../actions/Cart'
-import Order from '../actions/Order'
+import ActionOrder from '../actions/Order'
 
 
 //import constants
@@ -75,7 +75,7 @@ const Home = props => {
       cartInfo: storeCart.info,
       customerInfo: values
     }
-    dispatch(Order.sendOrder(dataPrepared, handleSubmitDone.bind(this)))
+    dispatch(ActionOrder.sendOrder(dataPrepared, handleSubmitDone.bind(this)))
   }
   const onSubmitFormFailed = (errorInfo) => {
     console.log('Failed:', errorInfo)
@@ -84,7 +84,9 @@ const Home = props => {
     if(status) { //success
       const cartInfo = {...storeCart.info}
       cartInfo.status = data.status || ORDER_STATUS.NEW
-      dispatch(ActionCart.setCart(cartInfo))
+
+      dispatch(ActionOrder.setOrder(data))
+      dispatch(ActionCart.resetCart())
 
       successNotificationDialogs.show({
         message: 'Order successfully',

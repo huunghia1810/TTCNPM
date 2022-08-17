@@ -44,6 +44,8 @@ const MyHeader = props => {
     const items = _.get(storeCart, 'info.items')
     if(items) {
       setNumberCartItems(items.length)
+    } else {
+      setNumberCartItems(null)
     }
   }, [storeCart])
 

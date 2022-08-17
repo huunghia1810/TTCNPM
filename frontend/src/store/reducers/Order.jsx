@@ -72,16 +72,26 @@ export default function reducer(state = initialState, action) {
       }
 
     case constantOrder.ORDER_UPDATE_SUCCESS:
-      var { total, limit, skip, data } = action.payload
+      let listOrders = [...state.listOrders]
+      const idxItemEffect = [...state.listOrders].findIndex(order => order.id === action.payload.id)
+      if(idxItemEffect >= 0) {
+        listOrders[idxItemEffect] = action.payload
+      }
       return {
         ...state,
         fetching: false,
-        listOrders: data,
-        totalUnread: total,
-        limitUnread: limit,
-        skipUnread: skip,
+        listOrders: [...listOrders],
         error: null,
       }
+
+    case  constantOrder.ORDER_SET_ORDER_INFO_SUCCESS:
+      return {
+        ...state,
+        fetching: false,
+        orderInfo: action.payload,
+        error: null,
+      }
+
     default:
       return state
   }

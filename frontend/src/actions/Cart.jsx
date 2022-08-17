@@ -2,8 +2,6 @@ import _ from 'lodash'
 
 import * as constantCart from '../constants/Cart'
 
-import feathersClient from './../feathersClient'
-
 const CART_KEY = 'CART_INFO'
 
 class ActionCart {
@@ -21,8 +19,9 @@ class ActionCart {
   }
 
   resetCart() {
-    return function (dispatch) {
+    return dispatch => {
       localStorage.setItem(CART_KEY, JSON.stringify({}))
+      dispatch({type: constantCart.CART_SET_CART_INFO_SUCCESS, payload: {}})
     }
   }
   
