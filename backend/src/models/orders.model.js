@@ -7,7 +7,7 @@ const ORDER_STATUS = {
   DRAFT: 'DRAFT',
   NEW: 'NEW',
   PREPARING: 'PREPARING',
-  WAITING_REVIEW: 'WAITING_REVIEW',
+  SERVED: 'SERVED',
   DONE: 'DONE',
 }
 
@@ -53,7 +53,7 @@ module.exports = function (app) {
       }
     },
     status: {
-      type: DataTypes.ENUM(ORDER_STATUS.DRAFT, ORDER_STATUS.NEW, ORDER_STATUS.PREPARING, ORDER_STATUS.WAITING_REVIEW, ORDER_STATUS.DONE),
+      type: DataTypes.ENUM(ORDER_STATUS.DRAFT, ORDER_STATUS.NEW, ORDER_STATUS.PREPARING, ORDER_STATUS.SERVED, ORDER_STATUS.DONE),
       allowNull: false,
       defaultValue: ORDER_STATUS.NEW,
     },
