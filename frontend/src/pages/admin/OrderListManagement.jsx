@@ -19,6 +19,9 @@ import * as constantOrder from '../../constants/Order'
 import ActionMenu from '../../actions/Menu'
 import io from "socket.io-client"
 
+//import socket
+import feathersClient from './../../feathersClient'
+
 //init info
 const { ORDER_STATUS } = constantOrder
 
@@ -37,6 +40,10 @@ const OrderListManagement = props => {
 
   useEffect(() => {
     dispatch(ActionOrder.getOrders())
+    feathersClient.service('orders')
+      .on('created', message => {
+        dispatch(ActionOrder.getOrders())
+      })
   }, [])
 
   useEffect(() => {
@@ -203,7 +210,7 @@ const OrderListManagement = props => {
 
         //prepare render
         //_tableDataItem.id = order.id
-        _tableDataItem.tableNo = order.slotNumber
+        _tableDataItem.tableNo = (<strong>#{order.slotNumber}</strong>)
         _tableDataItem.cartInfo = htmlCartInfo
         _tableDataItem.total = (
           <strong style={{color: '#1890ff'}}>{numTotal.toLocaleString()}</strong>
@@ -306,7 +313,7 @@ const OrderListManagement = props => {
               <Table
                 columns={columns}
                 dataSource={tableData}
-                pagination={{pageSize: 2}}
+                pagination={{pageSize: 10}}
                 className='ant-border-space'
               />
             </div>

@@ -17,9 +17,6 @@ import {Col, Row, Descriptions, Card, Button} from 'antd'
 import ActionMenu from '../actions/Menu'
 import ActionOrder from '../actions/Order'
 
-//import socket
-import feathersClient from './../feathersClient'
-
 //init info
 import io from 'socket.io-client'
 
@@ -50,11 +47,6 @@ const MyOrder = props => {
     socket.on('orders patched', message => {
       handleListenChangeOrders(message)
     })
-    
-    /*feathersClient.service('orders')
-      .on('patched', message => {
-        debugger
-      })*/
   }, [])
 
   useEffect(() => {

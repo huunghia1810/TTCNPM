@@ -272,7 +272,7 @@ const Home = props => {
               <Form.Item
                 name="phone"
                 rules={[
-                  { min: 6, max: 8, message: 'Length of Phone number from 8 to 10 characters' },
+                  { min: 8, max: 9, message: 'Length of Phone number from 8 to 10 characters' },
                   { pattern: /^\d*$/, message: 'Phone number must be numeric!' },
                 ]}
               >
