@@ -1,10 +1,11 @@
 import _ from 'lodash'
 
+import feathersClient from './../feathersClient'
+
+//import constants
 import * as constantOrder from '../constants/Order'
 
-import feathersClient from './../feathersClient'
-import * as constantCart from '../constants/Cart'
-
+//init info
 const ORDER_INFO = 'ORDER_INFO'
 
 class ActionOrder {
@@ -30,7 +31,7 @@ class ActionOrder {
       dispatch({type: constantOrder.ORDER_GET_DATA_PROCESSING})
       const query = {
         query: {
-          $sort: {id: 1},
+          $sort: {id: 0},
           $limit: 1000
         }
       }
@@ -69,6 +70,18 @@ class ActionOrder {
     }
   }
 
+  generateOrder() {
+    return function (dispatch) {
+      let objOrderInfo = localStorage.getItem(ORDER_INFO)
+      //check exist cart key
+      if(_.isNil(objOrderInfo)) {
+        localStorage.setItem(ORDER_INFO, JSON.stringify({}))
+        dispatch({type: constantOrder.ORDER_SET_ORDER_INFO_SUCCESS, payload: {}})
+      } else {
+        dispatch({type: constantOrder.ORDER_SET_ORDER_INFO_SUCCESS, payload: JSON.parse(objOrderInfo)})
+      }
+    }
+  }
 }
 
 export default new ActionOrder()

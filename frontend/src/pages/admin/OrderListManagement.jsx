@@ -6,8 +6,6 @@ import React, {useEffect, useRef, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 
-import feathersClient from './../../feathersClient'
-
 //import UI libs
 import Highlighter from 'react-highlight-words'
 import {Card, Col, Descriptions, Radio, Row, Table, Tag, Dropdown, Menu, Space, Button, Input} from 'antd'
@@ -19,6 +17,7 @@ import ActionOrder from '../../actions/Order'
 //import constants
 import * as constantOrder from '../../constants/Order'
 import ActionMenu from '../../actions/Menu'
+import io from "socket.io-client"
 
 //init info
 const { ORDER_STATUS } = constantOrder
@@ -38,11 +37,6 @@ const OrderListManagement = props => {
 
   useEffect(() => {
     dispatch(ActionOrder.getOrders())
-
-    /*feathersClient.service('orders')
-      .on('patched', message => {
-        handleListenChangeOrders(message)
-      })*/
   }, [])
 
   useEffect(() => {

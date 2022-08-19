@@ -1,11 +1,14 @@
 import _ from "lodash";
 
 import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import {Link, useLocation, useParams} from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 
-import { Layout } from "antd";
-import Header from "./Header";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faPhone} from '@fortawesome/free-solid-svg-icons'
+import {Col, Layout, Menu, Row} from 'antd'
+
+import MyHeader from "./Header";
 import Footer from "./Footer";
 
 //----------import pages---------------
@@ -19,7 +22,11 @@ import PageNotFound from "./../layout/PageNotFound/PageNotFound";
 //import actions
 import ActionIdentity from "../../actions/Identity";
 
-const { Content } = Layout;
+//import socket
+import feathersClient from './../../feathersClient'
+
+//init info
+const { Content, Header } = Layout;
 
 const Main = (props) => {
   const dispatch = useDispatch();
@@ -27,6 +34,7 @@ const Main = (props) => {
   let { entity, action } = useParams();
 
   const [childComponent, setChildComponent] = useState(false);
+  const storeOrder = useSelector(state => state.Order) || {}
 
   useEffect(() => {
     handleUpdateMainContent();
@@ -36,7 +44,6 @@ const Main = (props) => {
     handleUpdateMainContent();
   }, [entity, action]);
 
-  //handler
   const handleUpdateMainContent = () => {
     let mainComponent = null;
     entity = _.isUndefined(entity) ? "home" : entity;
@@ -69,7 +76,15 @@ const Main = (props) => {
   return (
     <>
       <Layout className="layout-default layout-signin">
-        <Header />
+        <MyHeader />
+        <Row gutter={[24, 0]}>
+          <Col span={24} style={{paddingTop: 20, textAlign: 'center'}}>
+            <h3 className="text-fill" style={{paddingTop: 10, paddingBottom: 10}}>
+              <FontAwesomeIcon icon={faPhone} />&nbsp; 0909 090 909
+            </h3>
+          </Col>
+        </Row>
+
         <Content className="content-ant">{childComponent || ""}</Content>
         <Footer />
       </Layout>
