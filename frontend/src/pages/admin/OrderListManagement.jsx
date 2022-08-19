@@ -33,6 +33,7 @@ const OrderListManagement = props => {
   const [tableData, setTableData] = useState([])
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
+  const [filterStatus, setFilterStatus] = useState('')
 
   //store
   const storeMenu = useSelector(state => state.Menu) || {}
@@ -47,16 +48,23 @@ const OrderListManagement = props => {
   }, [])
 
   useEffect(() => {
+    if(filterStatus.length) {
+      dispatch(ActionOrder.getOrders({status: filterStatus}))
+    } else {
+      dispatch(ActionOrder.getOrders())
+    }
+  }, [filterStatus])
+
+  useEffect(() => {
     _setDataTables()
   }, [storeOrder])
 
   //handlers
-  const onChange = (e) => console.log(`radio checked:${e.target.value}`)
+  const onChangeFilterStatus = e => {
+    setFilterStatus(e.target.value)
+  }
   const handleChangeOrderStatus = (id, status) => {
     dispatch(ActionOrder.updateOrderById(id, {status}))
-  }
-  const handleListenChangeOrders = message => {
-    console.log('handleListenChangeOrders', message, storeOrder.listOrders)
   }
   
   //Todo: render tables
@@ -210,7 +218,7 @@ const OrderListManagement = props => {
 
         //prepare render
         //_tableDataItem.id = order.id
-        _tableDataItem.tableNo = (<strong>#{order.slotNumber}</strong>)
+        _tableDataItem.tableNo = order.slotNumber
         _tableDataItem.cartInfo = htmlCartInfo
         _tableDataItem.total = (
           <strong style={{color: '#1890ff'}}>{numTotal.toLocaleString()}</strong>
@@ -298,13 +306,16 @@ const OrderListManagement = props => {
             title='Orders management'
             extra={
               <>
-                <Radio.Group defaultValue='a' onChange={onChange}>
-                  <Radio.Button value='z'>Tất cả</Radio.Button>
-                  <Radio.Button value='a'>Đơn mới </Radio.Button>
-                  <Radio.Button value='b'>Nhận đơn</Radio.Button>
-                  <Radio.Button value='c'>Phục vụ</Radio.Button>
-                  <Radio.Button value='d'>Thanh toán</Radio.Button>
-                  <Radio.Button value='e'>Hoàn thành</Radio.Button>
+                <Radio.Group
+                  defaultValue=''
+                  value={filterStatus}
+                  onChange={onChangeFilterStatus}
+                >
+                  {
+                    ['', ...Object.keys(ORDER_STATUS)]
+                      .filter(stt => stt !== ORDER_STATUS.DRAFT)
+                      .map((stt, k) => (<Radio.Button key={k} value={stt}>{stt.length ? stt : 'ALL'}</Radio.Button>))
+                  }
                 </Radio.Group>
               </>
             }

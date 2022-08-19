@@ -26,7 +26,7 @@ class ActionOrder {
     }
   }
 
-  getOrders() {
+  getOrders(objFilter = null) {
     return function (dispatch) {
       dispatch({type: constantOrder.ORDER_GET_DATA_PROCESSING})
       const query = {
@@ -34,6 +34,10 @@ class ActionOrder {
           $sort: {id: 0},
           $limit: 1000
         }
+      }
+
+      if(!_.isNaN(objFilter)) {
+        query.query = {...query.query, ...objFilter}
       }
 
       feathersClient.service('orders').find(query)
