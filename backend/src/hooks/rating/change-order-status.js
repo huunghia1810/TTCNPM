@@ -1,21 +1,21 @@
 /* See hooks document: https://docs.feathersjs.com/guides/basics/hooks.html */
 const _ = require('lodash')
 const moment = require('moment')
-const checkPermissions = require('feathers-permissions');
 
-const { Forbidden } = require('@feathersjs/errors')
+const ORDER_STATUS = {
+  DRAFT: 'DRAFT',
+  NEW: 'NEW',
+  PREPARING: 'PREPARING',
+  SERVED: 'SERVED',
+  DONE: 'DONE',
+}
 
-module.exports = function createDefaultUserRole(options = {roles: []}) {
+module.exports = function changeOrderStatus(options = {roles: []}) {
   return async (context) => {
     const { app, data, params, result } = context
+    const dataOrder = await app.service('orders').patch(data.orderId, { status: ORDER_STATUS.DONE });
 
-    const objUserRolesInfo = {
-      userId: result.id,
-      roles: JSON.stringify(['normal'])
-    }
-    const dataUserRole = await app.service('user-roles').create(objUserRolesInfo);
-
-    result.userRole = dataUserRole
+    result.order = dataOrder
     return context
   }
 }

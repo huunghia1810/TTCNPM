@@ -10,12 +10,32 @@ const ORDER_STATUS = {
   DONE: 'DONE',
 }
 
-module.exports = function changeOrderStatus(options = {roles: []}) {
+module.exports = function attachRatingData(options = {roles: []}) {
   return async (context) => {
     const { app, data, params, result } = context
-    const dataOrder = await app.service('orders').patch(data.orderId, { status: ORDER_STATUS.DONE });
+    let listOrderId = []
+    if(result.id !== undefined) { //get by id
+      listOrderId = [result.id]
+    } else if(Array.isArray(result.data)) { //get list
+      listOrderId = result.data.map(order => order.id)
+    }
+    const dataRating = await app.service('ratings').find({
+      query: {
+        orderId: {
+          $in: listOrderId
+        }
+      }
+    });
 
-    result.order = dataOrder
+    if(result.id !== undefined) { //get by id
+      result.rating = dataRating.data.length ? dataRating.data[0] : {}
+    } else if(Array.isArray(result.data)) { //get list
+      result.data.map(order => {
+        const tmpDataRating = dataRating.data.find(rt => rt.orderId == order.id)
+        order.rating = tmpDataRating != undefined ? tmpDataRating : {}
+      })
+    }
+
     return context
   }
 }
