@@ -5,7 +5,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Layout } from "antd";
-import Header from "./Header";
+import MyHeader from "./Header";
 import Footer from "./Footer";
 
 //----------import pages---------------
@@ -57,7 +57,7 @@ const Main = (props) => {
   return (
     <>
       <Layout className="layout-default layout-signin">
-        <Header />
+        <MyHeader isAdmin={true} />
         <Content className="content-ant">{childComponent || ""}</Content>
         <Footer />
       </Layout>
