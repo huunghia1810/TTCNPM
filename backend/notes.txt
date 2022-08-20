@@ -36,10 +36,10 @@ db
   docker container rm docker_id
 
   docker image ls
-  docker image rm gas-system-management-image
+  docker image rm order-system-management-image
 
-  docker build -t gas-system-management-image .
-  docker run -d -p 3445:3445 --name gas-system-management-container gas-system-management-image
+  docker build -t order-system-management-image .
+  docker run -d -p 3447:3447 --name order-system-management-container order-system-management-image
 
 ########## open port
   https://hocvps.com/kiem-tra-va-mo-port-vps-tren-centos/
