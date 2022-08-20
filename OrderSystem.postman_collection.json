@@ -267,6 +267,240 @@
 			]
 		},
 		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Get List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dlocal}}/orders",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dlocal}}/orders/27",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"orders",
+								"27"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"slotNumber\": 1,\n    \"cartInfo\": \"{\\\"items\\\":[{\\\"id\\\":1102,\\\"note\\\":\\\"ít cay\\\",\\\"quantity\\\":[{\\\"id\\\":110201,\\\"quantity\\\":1}]},{\\\"id\\\":2205,\\\"note\\\":\\\"ít bún\\\",\\\"quantity\\\":1},{\\\"id\\\":3303,\\\"note\\\":\\\"ít ngọt\\\",\\\"quantity\\\":2}]}\",\n    \"customerName\": \"Nghia Test 123\",\n    \"customerPhone\": \"8499393933\",\n    \"status\": \"DONE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dlocal}}/orders",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"SERVED\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dlocal}}/orders/2",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"orders",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rating",
+			"item": [
+				{
+					"name": "Get List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dlocal}}/ratings",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dlocal}}/ratings/1",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"ratings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"stars\": 4,\n    \"note\": \"aaa\",\n    \"orderId\": 26\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dlocal}}/ratings",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{tlocal}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"SERVED\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dlocal}}/ratings/2",
+							"host": [
+								"{{dlocal}}"
+							],
+							"path": [
+								"ratings",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Identity",
 			"item": [
 				{
@@ -384,156 +618,6 @@
 							"path": [
 								"identity",
 								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Notifications",
-			"item": [
-				{
-					"name": "Get List",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{tlocal}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{dlocal}}/notifications",
-							"host": [
-								"{{dlocal}}"
-							],
-							"path": [
-								"notifications"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get By ID",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{tlocal}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{dlocal}}/notifications/1",
-							"host": [
-								"{{dlocal}}"
-							],
-							"path": [
-								"notifications",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Add",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{tlocal}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"content\": \"This notification content 1\",\n    \"type\": \"notify\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{dlocal}}/notifications",
-							"host": [
-								"{{dlocal}}"
-							],
-							"path": [
-								"notifications"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{tlocal}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"content\": \"This notification content 1.1\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{dlocal}}/notifications/1",
-							"host": [
-								"{{dlocal}}"
-							],
-							"path": [
-								"notifications",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{tlocal}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"isDeleted\": 1\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{dlocal}}/notifications/28",
-							"host": [
-								"{{dlocal}}"
-							],
-							"path": [
-								"notifications",
-								"28"
 							]
 						}
 					},
