@@ -363,13 +363,20 @@ const OrderListManagement = props => {
             title="Orders management"
             extra={
               <>
-                <Radio.Group defaultValue="a" onChange={() => {}}>
-                  <Radio.Button value="z">Tất cả</Radio.Button>
-                  <Radio.Button value="a">Đơn mới </Radio.Button>
-                  <Radio.Button value="b">Nhận đơn</Radio.Button>
-                  <Radio.Button value="c">Phục vụ</Radio.Button>
-                  <Radio.Button value="d">Thanh toán</Radio.Button>
-                  <Radio.Button value="e">Hoàn thành</Radio.Button>
+                <Radio.Group defaultValue="" onChange={onChangeFilterStatus}>
+                  <Radio.Button value="">ALL</Radio.Button>
+                  {Object.keys(ORDER_STATUS).map((item, index) => {
+                    if (
+                      item === ORDER_STATUS.DRAFT ||
+                      item === ORDER_STATUS.DONE
+                    )
+                      return <></>;
+                    return (
+                      <Radio.Button value={item} key={index}>
+                        {item}
+                      </Radio.Button>
+                    );
+                  })}
                 </Radio.Group>
               </>
             }
