@@ -151,7 +151,7 @@ const MyOrder = props => {
           <Card
             className="header-solid h-full cart-list"
             bordered={false}
-            title={<h6 className="font-semibold m-0">Cart Info</h6>}
+            title={<h6 className="font-semibold m-0">Cart Info <strong>#{_.get(storeOrder, 'orderInfo.id')}</strong></h6>}
             bodyStyle={{ paddingTop: "0" }}
           >
             {htmlOrderInfo}

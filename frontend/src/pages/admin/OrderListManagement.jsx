@@ -175,6 +175,13 @@ const OrderListManagement = props => {
   const columns = [
     //{title: 'Order Id', dataIndex: 'id', key: 'id', width: '2%'},
     {
+      title: 'Order Id',
+      dataIndex: 'orderId',
+      key: 'orderId',
+      width: '3%',
+      ...getColumnSearchProps('orderId'),
+    },
+    {
       title: 'Table No',
       dataIndex: 'tableNo',
       key: 'tableNo',
@@ -185,7 +192,7 @@ const OrderListManagement = props => {
       title: 'Cart Info',
       dataIndex: 'cartInfo',
       key: 'cartInfo',
-      width: '35%',
+      width: '32%',
     },
 
     { title: 'Total (VND)', key: 'total', dataIndex: 'total', width: '15%' },
@@ -204,9 +211,6 @@ const OrderListManagement = props => {
 
     if (storeOrder?.listOrders?.length) {
       _tableData = storeOrder?.listOrders
-        .filter(order => {
-          return filterStatus ? order?.status === filterStatus : true;
-        })
         .map(order => {
           const _tableDataItem = { key: order.id };
 
@@ -269,7 +273,7 @@ const OrderListManagement = props => {
           });
 
           //prepare render
-          //_tableDataItem.id = order.id
+          _tableDataItem.orderId = order.id
           _tableDataItem.tableNo = order.slotNumber;
           _tableDataItem.cartInfo = htmlCartInfo;
           _tableDataItem.total = (
@@ -363,20 +367,16 @@ const OrderListManagement = props => {
             title="Orders management"
             extra={
               <>
-                <Radio.Group defaultValue="" onChange={onChangeFilterStatus}>
-                  <Radio.Button value="">ALL</Radio.Button>
-                  {Object.keys(ORDER_STATUS).map((item, index) => {
-                    if (
-                      item === ORDER_STATUS.DRAFT ||
-                      item === ORDER_STATUS.DONE
-                    )
-                      return <></>;
-                    return (
-                      <Radio.Button value={item} key={index}>
-                        {item}
-                      </Radio.Button>
-                    );
-                  })}
+                <Radio.Group
+                  defaultValue=''
+                  value={filterStatus}
+                  onChange={onChangeFilterStatus}
+                >
+                  {
+                    ['', ...Object.keys(ORDER_STATUS)]
+                      .filter(stt => stt !== ORDER_STATUS.DRAFT)
+                      .map((stt, k) => (<Radio.Button key={k} value={stt}>{stt.length ? stt : 'ALL'}</Radio.Button>))
+                  }
                 </Radio.Group>
               </>
             }
@@ -385,7 +385,7 @@ const OrderListManagement = props => {
               <Table
                 columns={columns}
                 dataSource={tableData}
-                pagination={{ pageSize: 2 }}
+                pagination={{ pageSize: 10 }}
                 className="ant-border-space"
               />
             </div>
