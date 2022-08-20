@@ -6,7 +6,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-
 //import UI libs
 import Highlighter from 'react-highlight-words';
 import {
@@ -29,59 +28,59 @@ import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import ActionOrder from '../../actions/Order';
 
 //import constants
-import * as constantOrder from '../../constants/Order'
-import ActionMenu from '../../actions/Menu'
+import * as constantOrder from '../../constants/Order';
+import ActionMenu from '../../actions/Menu';
 
 //import socket
-import feathersClient from './../../feathersClient'
+import feathersClient from './../../feathersClient';
 
 //init info
 const { ORDER_STATUS } = constantOrder;
 const OrderListManagement = props => {
-  const dispatch = useDispatch()
-  const history = useHistory()
-  const searchInput = useRef(null)
-
-  const [tableData, setTableData] = useState([])
-  const [searchText, setSearchText] = useState('')
-  const [searchedColumn, setSearchedColumn] = useState('')
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const searchInput = useRef(null);
+  const [filterStatus, setFilterStatus] = useState('');
+  const [tableData, setTableData] = useState([]);
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
 
   //store
   const storeMenu = useSelector(state => state.Menu) || {};
   const storeOrder = useSelector(state => state.Order) || {};
 
   useEffect(() => {
-    dispatch(ActionOrder.getOrders())
+    dispatch(ActionOrder.getOrders());
 
     /*feathersClient.service('orders')
       .on('patched', message => {
         handleListenChangeOrders(message)
       })*/
-  }, [])
+  }, []);
 
   useEffect(() => {
-    if(filterStatus.length) {
-      dispatch(ActionOrder.getOrders({status: filterStatus}))
+    if (filterStatus.length) {
+      dispatch(ActionOrder.getOrders({ status: filterStatus }));
     } else {
-      dispatch(ActionOrder.getOrders())
+      dispatch(ActionOrder.getOrders());
     }
-  }, [filterStatus])
+  }, [filterStatus]);
 
   useEffect(() => {
-    _setDataTables()
-  }, [storeOrder])
+    _setDataTables();
+  }, [storeOrder]);
 
   //handlers
   const onChangeFilterStatus = e => {
-    setFilterStatus(e.target.value)
-  }
+    setFilterStatus(e.target.value);
+  };
   const handleChangeOrderStatus = (id, status) => {
-    dispatch(ActionOrder.updateOrderById(id, {status}))
-  }
+    dispatch(ActionOrder.updateOrderById(id, { status }));
+  };
   const handleListenChangeOrders = message => {
-    console.log('handleListenChangeOrders', message, storeOrder.listOrders)
-  }
-  
+    console.log('handleListenChangeOrders', message, storeOrder.listOrders);
+  };
+
   //Todo: render tables
   //for filter columns of table
   const getColumnSearchProps = dataIndex => ({
@@ -206,7 +205,7 @@ const OrderListManagement = props => {
     if (storeOrder?.listOrders?.length) {
       _tableData = storeOrder?.listOrders
         .filter(order => {
-          return filter ? order?.status === filter : true;
+          return filterStatus ? order?.status === filterStatus : true;
         })
         .map(order => {
           const _tableDataItem = { key: order.id };
@@ -364,13 +363,13 @@ const OrderListManagement = props => {
             title="Orders management"
             extra={
               <>
-                <Radio.Group defaultValue='a' onChange={onChange}>
-                  <Radio.Button value='z'>Tất cả</Radio.Button>
-                  <Radio.Button value='a'>Đơn mới </Radio.Button>
-                  <Radio.Button value='b'>Nhận đơn</Radio.Button>
-                  <Radio.Button value='c'>Phục vụ</Radio.Button>
-                  <Radio.Button value='d'>Thanh toán</Radio.Button>
-                  <Radio.Button value='e'>Hoàn thành</Radio.Button>
+                <Radio.Group defaultValue="a" onChange={() => {}}>
+                  <Radio.Button value="z">Tất cả</Radio.Button>
+                  <Radio.Button value="a">Đơn mới </Radio.Button>
+                  <Radio.Button value="b">Nhận đơn</Radio.Button>
+                  <Radio.Button value="c">Phục vụ</Radio.Button>
+                  <Radio.Button value="d">Thanh toán</Radio.Button>
+                  <Radio.Button value="e">Hoàn thành</Radio.Button>
                 </Radio.Group>
               </>
             }
@@ -379,8 +378,8 @@ const OrderListManagement = props => {
               <Table
                 columns={columns}
                 dataSource={tableData}
-                pagination={{pageSize: 2}}
-                className='ant-border-space'
+                pagination={{ pageSize: 2 }}
+                className="ant-border-space"
               />
             </div>
           </Card>
