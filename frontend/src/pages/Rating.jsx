@@ -1,15 +1,15 @@
-import _ from "lodash";
+import _ from 'lodash';
 
 //import react & relations
-import React from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   FrownOutlined,
   MehOutlined,
   SendOutlined,
   SmileOutlined,
-} from "@ant-design/icons";
+} from '@ant-design/icons';
 //import UI libs
 import {
   Col,
@@ -23,15 +23,17 @@ import {
   Input,
   Button,
   Form,
-} from "antd";
-import { feedbackImg } from "../assets/images";
-import "./../assets/styles/feedback.css";
+} from 'antd';
+import { feedbackImg } from '../assets/images';
+import ActionMenu from '../actions/Menu';
+import './../assets/styles/feedback.css';
+import moment from 'moment';
 const data = [
   {
-    title: "Ant Design Title 1",
+    title: 'Ant Design Title 1',
   },
   {
-    title: "Ant Design Title 2",
+    title: 'Ant Design Title 2',
   },
 ];
 const { Meta } = Card;
@@ -45,11 +47,85 @@ const customIcons = {
 const { TextArea } = Input;
 const { Content } = Layout;
 const { Title, Text } = Typography;
-const Rating = (props) => {
+const Rating = props => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+  const onFinish = values => {
+    console.log('Received values of form: ', values);
+    history.push('/');
+  };
+  const storeMenu = useSelector(state => state.Menu) || {};
+  const storeOrder = useSelector(state => state.Order) || {};
+  const renderOrder = () => {
+    if (Object.keys(storeOrder.orderInfo).length) {
+      let { cartInfo, status, slotNumber, createdAt } = storeOrder.orderInfo;
+      let curTotalQuantity = 0;
+
+      cartInfo = JSON.parse(cartInfo);
+      let numTotal = 0;
+      const { items } = cartInfo;
+      return (
+        <div className="card-order">
+          <Title level={5}>Order #123</Title>
+          <Text type="secondary">
+            {moment(createdAt).format('DD/MM/YYYY hh:mm:ss')}
+          </Text>
+          <List
+            itemLayout="horizontal"
+            dataSource={items}
+            renderItem={item => {
+              const curItemInfo = ActionMenu.getMenuItemById(
+                item.id,
+                storeMenu.configs,
+              );
+              //calculate total
+              let curQuantity = 0;
+              if (Array.isArray(item.quantity)) {
+                item.quantity.map(q => {
+                  curQuantity = parseInt(q.quantity)
+                  curTotalQuantity += parseInt(q.quantity);
+                });
+              } else {
+                curTotalQuantity += parseInt(item.quantity);
+              }
+              numTotal += curItemInfo.price * curTotalQuantity;
+
+              return (
+                <List.Item>
+                  <Row style={{ width: '100%' }} gutter={[16, 0]}>
+                    <Col span={4}>
+                      <div className="img-food-box">
+                        <img
+                          className="img-food"
+                          alt=""
+                          src="https://thegangs.onha.vn/images/repo/Tomahawk%20Beef%20890k%20(%201kg%20).jpg"
+                        />
+                      </div>
+                    </Col>
+                    <Col span={20}>
+                      <Title level={5}>{curItemInfo?.name}</Title>
+                      <Text type="secondary">
+                      {curItemInfo?.description}
+                      </Text>
+                      <div className="detail-food">
+                        <Text level={5}>{curItemInfo?.price}d</Text>
+                        <Text level={5}>Số lượng: {curQuantity}</Text>
+                        <Text level={5}>Lựa chọn: Sốt cay</Text>
+                      </div>
+                    </Col>
+                  </Row>
+                </List.Item>
+              );
+            }}
+          />
+          <div className="detail-food">
+            <Text type="secondary">{curTotalQuantity} món</Text>
+            <Title level={5}>10 000 000đ</Title>
+          </div>
+        </div>
+      );
+    }
+    return <></>;
   };
   return (
     <>
@@ -71,62 +147,33 @@ const Rating = (props) => {
                 <div className="form-feedback">
                   <div className="card-feedback">
                     <Title level={3}>Feedback</Title>
-                    <div className="card-order">
-                      <Title level={5}>Order #123</Title>
-                      <Text type="secondary">23/2/2022 00:00:00</Text>
-                      <List
-                        itemLayout="horizontal"
-                        dataSource={data}
-                        renderItem={(item) => (
-                          <List.Item>
-                            <Row style={{ width: "100%" }} gutter={[16, 0]}>
-                              <Col span={4}>
-                                <div className="img-food-box">
-                                  <img
-                                    className="img-food"
-                                    alt=""
-                                    src="https://thegangs.onha.vn/images/repo/Tomahawk%20Beef%20890k%20(%201kg%20).jpg"
-                                  />
-                                </div>
-                              </Col>
-                              <Col span={20}>
-                                <Title level={5}>Đùi cừu nướng</Title>
-                                <Text type="secondary">
-                                  Đùi cừu nướng trọng lương 300gr
-                                </Text>
-                                <div className="detail-food">
-                                  <Text level={5}>100.000d</Text>
-                                  <Text level={5}>Số lượng: 1</Text>
-                                  <Text level={5}>Lựa chọn: Sốt cay</Text>
-                                </div>
-                              </Col>
-                            </Row>
-                          </List.Item>
-                        )}
-                      />
-                      <div className="detail-food">
-                        <Text type="secondary">3 món</Text>
-                        <Title level={5}>10 000 000đ</Title>
-                      </div>
-                    </div>
+                    {renderOrder()}
+                    
                     <Title level={4}>
                       Quý khách cảm thấy như thế nào về đơn hàng này?
                     </Title>
                     <Form
                       name="validate_other"
                       onFinish={onFinish}
-                      initialValues={{
-                      }}
+                      initialValues={{}}
                     >
-                      <Form.Item name="rate" rules={[{ required: true, message: 'Please select your rate!' }]}>
+                      <Form.Item
+                        name="rate"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please select your rate!',
+                          },
+                        ]}
+                      >
                         <Rate
-                          style={{ fontSize: "50px" }}
+                          style={{ fontSize: '50px' }}
                           character={({ index }) => customIcons[index + 1]}
                         />
                       </Form.Item>
                       <Form.Item name="note">
                         <TextArea
-                          style={{ marginTop: "10px", marginBottom: "20px" }}
+                          style={{ marginTop: '10px', marginBottom: '20px' }}
                           rows={4}
                           placeholder="Vui lòng nói cho chúng tôi biết tại sao bạn đánh giá như thế"
                         />

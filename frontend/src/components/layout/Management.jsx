@@ -57,7 +57,7 @@ const Main = (props) => {
   return (
     <>
       <Layout className="layout-default layout-signin">
-        <Header />
+        <Header isAdmin/>
         <Content className="content-ant">{childComponent || ""}</Content>
         <Footer />
       </Layout>

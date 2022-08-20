@@ -68,6 +68,7 @@ class ActionUser {
     }
     signOut() {
         return async function (dispatch) {
+            console.log("sout");
             dispatch({type: constantUser.USER_AUTH_SIGN_OUT_PROCESSING})
             await feathersClient.logout()
             dispatch({type: constantUser.USER_AUTH_SIGN_OUT_SUCCESS})
