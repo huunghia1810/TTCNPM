@@ -1,5 +1,5 @@
 {
-  "name": "muse-ant-design-dashboard",
+  "name": "order-management-dashboard",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
@@ -41,12 +41,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -60,6 +54,6 @@
     ]
   },
   "devDependencies": {
-    "eslint-config-prettier": "^8.5.0"
+    "prettier": "2.7.1"
   }
 }

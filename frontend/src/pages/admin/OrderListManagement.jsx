@@ -6,7 +6,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import feathersClient from './../../feathersClient'
 
 //import UI libs
 import Highlighter from 'react-highlight-words';
