@@ -50,13 +50,16 @@ const OrderListManagement = props => {
   const storeOrder = useSelector(state => state.Order) || {};
 
   useEffect(() => {
-    dispatch(ActionOrder.getOrders());
-
-    /*feathersClient.service('orders')
-      .on('patched', message => {
-        handleListenChangeOrders(message)
-      })*/
-  }, []);
+    dispatch(ActionOrder.getOrders())
+    feathersClient.service('orders')
+      .on('created', message => {
+        if(filterStatus.length) {
+          dispatch(ActionOrder.getOrders({ status: filterStatus }));
+        } else {
+          dispatch(ActionOrder.getOrders())
+        }
+      })
+  }, [])
 
   useEffect(() => {
     if (filterStatus.length) {

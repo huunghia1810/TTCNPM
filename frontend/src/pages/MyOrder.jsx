@@ -4,7 +4,7 @@ import moment from 'moment'
 //import react & relations
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {withRouter, useHistory} from 'react-router-dom'
+import {withRouter, useHistory, Link} from 'react-router-dom'
 
 //import UI libs
 import {Col, Row, Descriptions, Card, Button} from 'antd'
@@ -19,6 +19,7 @@ import ActionOrder from '../actions/Order'
 
 //init info
 import io from 'socket.io-client'
+import menuImg from '../assets/images/menu.png'
 
 var socket = io(process.env.REACT_APP_API_BASE_URL)
 socket.emit('create', 'authentication', {
@@ -119,8 +120,17 @@ const MyOrder = props => {
           <Descriptions.Item label="Total (VND)" span={3}>
             <h3 style={{color: '#1890ff'}}>{numTotal.toLocaleString()}</h3>
           </Descriptions.Item>
-          <Descriptions.Item label="Status" span={3}>
-            <h3 className="text-danger">{status}</h3>
+          <Descriptions.Item label="Status">
+            <h3 className="text-danger">{status}</h3>&nbsp;&nbsp;
+            <Link style={{marginLeft: 20}} to="/rating">
+              <Button
+                type='primary'
+                htmlType='button'
+                style={{fontSize: 16, lineHeight: '15px', height: 28}}
+              >
+                Review
+              </Button>
+            </Link>
           </Descriptions.Item>
         </Descriptions>
       )
