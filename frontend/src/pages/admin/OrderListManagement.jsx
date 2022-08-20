@@ -59,6 +59,13 @@ const OrderListManagement = props => {
           dispatch(ActionOrder.getOrders())
         }
       })
+      .on('patched', message => {
+        if(filterStatus.length) {
+          dispatch(ActionOrder.getOrders({ status: filterStatus }));
+        } else {
+          dispatch(ActionOrder.getOrders())
+        }
+      })
   }, [])
 
   useEffect(() => {
@@ -199,13 +206,14 @@ const OrderListManagement = props => {
     },
 
     { title: 'Total (VND)', key: 'total', dataIndex: 'total', width: '15%' },
-    { title: 'Status', key: 'status', dataIndex: 'status', width: '15%' },
+    { title: 'Status', key: 'status', dataIndex: 'status', width: '5%' },
     {
       title: 'Customer Info',
       key: 'customerInfo',
       dataIndex: 'customerInfo',
-      width: '20%',
+      width: '15%',
     },
+    { title: 'Review Info', key: 'reviewInfo', dataIndex: 'reviewInfo', width: '15%' },
     { title: 'Action', key: 'action', dataIndex: 'action', width: '10%' },
   ];
 
@@ -216,6 +224,7 @@ const OrderListManagement = props => {
       _tableData = storeOrder?.listOrders
         .map(order => {
           const _tableDataItem = { key: order.id };
+
 
           //prepare data cartInfo
           const cartInfo = JSON.parse(order.cartInfo);
@@ -320,6 +329,18 @@ const OrderListManagement = props => {
               </Descriptions>
             </>
           );
+          _tableDataItem.reviewInfo = Object.keys(order.rating).length ? (
+            <>
+              <Descriptions>
+                <Descriptions.Item label="Start(s)" span={3}>
+                  {order.rating.stars}
+                </Descriptions.Item>
+                <Descriptions.Item label="Note" span={3}>
+                  {order.rating.note}
+                </Descriptions.Item>
+              </Descriptions>
+            </>
+          ) : null
 
           //prepare data action
           const arrStatusRemain = Object.values(ORDER_STATUS)
@@ -389,7 +410,7 @@ const OrderListManagement = props => {
                 columns={columns}
                 dataSource={tableData}
                 pagination={{ pageSize: 10 }}
-                className="ant-border-space"
+                className="table-responsive ant-border-space"
               />
             </div>
           </Card>

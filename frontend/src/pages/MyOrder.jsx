@@ -20,6 +20,7 @@ import ActionOrder from '../actions/Order'
 //init info
 import io from 'socket.io-client'
 import menuImg from '../assets/images/menu.png'
+import {ORDER_STATUS} from '../constants/Order'
 
 var socket = io(process.env.REACT_APP_API_BASE_URL)
 socket.emit('create', 'authentication', {
@@ -122,15 +123,19 @@ const MyOrder = props => {
           </Descriptions.Item>
           <Descriptions.Item label="Status">
             <h3 className="text-danger">{status}</h3>&nbsp;&nbsp;
-            <Link style={{marginLeft: 20}} to="/rating">
-              <Button
-                type='primary'
-                htmlType='button'
-                style={{fontSize: 16, lineHeight: '15px', height: 28}}
-              >
-                Review
-              </Button>
-            </Link>
+            {
+              status === ORDER_STATUS.SERVED && (
+                <Link style={{marginLeft: 20}} to="/rating">
+                  <Button
+                    type='primary'
+                    htmlType='button'
+                    style={{fontSize: 16, lineHeight: '15px', height: 28}}
+                  >
+                    Review
+                  </Button>
+                </Link>
+              )
+            }
           </Descriptions.Item>
         </Descriptions>
       )

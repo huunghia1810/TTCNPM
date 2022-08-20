@@ -124,8 +124,7 @@ const Rating = props => {
         ...values,
         orderId: id,
       }
-      debugger
-      //dispatch(ActionRating.sendFeedback(dataPrepared, handleSubmitFeedbackFormDone.bind(this)))
+      dispatch(ActionRating.sendFeedback(dataPrepared, handleSubmitFeedbackFormDone.bind(this)))
     } else {
       alert(`Not found any order!`)
     }
@@ -136,8 +135,9 @@ const Rating = props => {
   }
   const handleSubmitFeedbackFormDone = (status = false, data) => {
     if(status) { //success
-      debugger
-      //dispatch(ActionOrder.setOrder(storeOrder.orderInfo))
+      const { orderInfo } = storeOrder
+      orderInfo.status = ORDER_STATUS.DONE
+      dispatch(ActionOrder.setOrder({...orderInfo}))
 
       successNotificationDialogs.show({
         message: 'Send feedback successful',
@@ -268,13 +268,13 @@ const Rating = props => {
                       onFinish={handleSubmitFeedbackForm}
                       onFinishFailed={handleSubmitFeedbackFormFail}
                 >
-                  <Form.Item name='rate' rules={[{ required: true, message: 'Please select your rate!' }]}>
+                  <Form.Item name='stars' rules={[{ required: true, message: 'Please select your rate!' }]}>
                     <Rate
                       style={{ fontSize: '50px' }}
                       character={({ index }) => customIcons[index + 1]}
                     />
                   </Form.Item>
-                  <Form.Item name='note'>
+                  <Form.Item defaultValue='' name='note'>
                     <TextArea
                       style={{ marginTop: '10px', marginBottom: '20px' }}
                       rows={4}

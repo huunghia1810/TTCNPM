@@ -13,7 +13,7 @@ class ActionRating {
     return dispatch => {
       dispatch({type: constantRating.RATING_ADD_DATA_PROCESSING})
 
-      feathersClient.service('orders').create(data).then(res => {
+      feathersClient.service('ratings').create(data).then(res => {
         dispatch({type: constantRating.RATING_ADD_DATA_SUCCESS, payload: res})
         if(typeof cb == 'function') {
           cb(true, res)
