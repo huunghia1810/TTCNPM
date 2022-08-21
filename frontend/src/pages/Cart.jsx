@@ -286,7 +286,7 @@ const Home = props => {
                   type='primary'
                   htmlType='submit'
                 >
-                  Save
+                  Submit
                 </Button>
               </Form.Item>
             </Form>

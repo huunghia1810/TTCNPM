@@ -50,13 +50,23 @@ const OrderListManagement = props => {
   const storeOrder = useSelector(state => state.Order) || {};
 
   useEffect(() => {
-    dispatch(ActionOrder.getOrders());
-
-    /*feathersClient.service('orders')
+    dispatch(ActionOrder.getOrders())
+    feathersClient.service('orders')
+      .on('created', message => {
+        if(filterStatus.length) {
+          dispatch(ActionOrder.getOrders({ status: filterStatus }));
+        } else {
+          dispatch(ActionOrder.getOrders())
+        }
+      })
       .on('patched', message => {
-        handleListenChangeOrders(message)
-      })*/
-  }, []);
+        if(filterStatus.length) {
+          dispatch(ActionOrder.getOrders({ status: filterStatus }));
+        } else {
+          dispatch(ActionOrder.getOrders())
+        }
+      })
+  }, [])
 
   useEffect(() => {
     if (filterStatus.length) {
@@ -175,6 +185,13 @@ const OrderListManagement = props => {
   const columns = [
     //{title: 'Order Id', dataIndex: 'id', key: 'id', width: '2%'},
     {
+      title: 'Order Id',
+      dataIndex: 'orderId',
+      key: 'orderId',
+      width: '3%',
+      ...getColumnSearchProps('orderId'),
+    },
+    {
       title: 'Table No',
       dataIndex: 'tableNo',
       key: 'tableNo',
@@ -185,17 +202,18 @@ const OrderListManagement = props => {
       title: 'Cart Info',
       dataIndex: 'cartInfo',
       key: 'cartInfo',
-      width: '35%',
+      width: '32%',
     },
 
     { title: 'Total (VND)', key: 'total', dataIndex: 'total', width: '15%' },
-    { title: 'Status', key: 'status', dataIndex: 'status', width: '15%' },
+    { title: 'Status', key: 'status', dataIndex: 'status', width: '5%' },
     {
       title: 'Customer Info',
       key: 'customerInfo',
       dataIndex: 'customerInfo',
-      width: '20%',
+      width: '15%',
     },
+    { title: 'Review Info', key: 'reviewInfo', dataIndex: 'reviewInfo', width: '15%' },
     { title: 'Action', key: 'action', dataIndex: 'action', width: '10%' },
   ];
 
@@ -204,11 +222,9 @@ const OrderListManagement = props => {
 
     if (storeOrder?.listOrders?.length) {
       _tableData = storeOrder?.listOrders
-        .filter(order => {
-          return filterStatus ? order?.status === filterStatus : true;
-        })
         .map(order => {
           const _tableDataItem = { key: order.id };
+
 
           //prepare data cartInfo
           const cartInfo = JSON.parse(order.cartInfo);
@@ -269,7 +285,7 @@ const OrderListManagement = props => {
           });
 
           //prepare render
-          //_tableDataItem.id = order.id
+          _tableDataItem.orderId = order.id
           _tableDataItem.tableNo = order.slotNumber;
           _tableDataItem.cartInfo = htmlCartInfo;
           _tableDataItem.total = (
@@ -313,6 +329,18 @@ const OrderListManagement = props => {
               </Descriptions>
             </>
           );
+          _tableDataItem.reviewInfo = Object.keys(order.rating).length ? (
+            <>
+              <Descriptions>
+                <Descriptions.Item label="Start(s)" span={3}>
+                  {order.rating.stars}
+                </Descriptions.Item>
+                <Descriptions.Item label="Note" span={3}>
+                  {order.rating.note}
+                </Descriptions.Item>
+              </Descriptions>
+            </>
+          ) : null
 
           //prepare data action
           const arrStatusRemain = Object.values(ORDER_STATUS)
@@ -363,20 +391,16 @@ const OrderListManagement = props => {
             title="Orders management"
             extra={
               <>
-                <Radio.Group defaultValue="" onChange={onChangeFilterStatus}>
-                  <Radio.Button value="">ALL</Radio.Button>
-                  {Object.keys(ORDER_STATUS).map((item, index) => {
-                    if (
-                      item === ORDER_STATUS.DRAFT ||
-                      item === ORDER_STATUS.DONE
-                    )
-                      return <></>;
-                    return (
-                      <Radio.Button value={item} key={index}>
-                        {item}
-                      </Radio.Button>
-                    );
-                  })}
+                <Radio.Group
+                  defaultValue=''
+                  value={filterStatus}
+                  onChange={onChangeFilterStatus}
+                >
+                  {
+                    ['', ...Object.keys(ORDER_STATUS)]
+                      .filter(stt => stt !== ORDER_STATUS.DRAFT)
+                      .map((stt, k) => (<Radio.Button key={k} value={stt}>{stt.length ? stt : 'ALL'}</Radio.Button>))
+                  }
                 </Radio.Group>
               </>
             }
@@ -385,8 +409,8 @@ const OrderListManagement = props => {
               <Table
                 columns={columns}
                 dataSource={tableData}
-                pagination={{ pageSize: 2 }}
-                className="ant-border-space"
+                pagination={{ pageSize: 10 }}
+                className="table-responsive ant-border-space"
               />
             </div>
           </Card>

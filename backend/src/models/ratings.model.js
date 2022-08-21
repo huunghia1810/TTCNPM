@@ -5,28 +5,27 @@ const DataTypes = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const notifications = sequelizeClient.define('notifications', {
+  const ratings = sequelizeClient.define('ratings', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    content: {
-      type: DataTypes.STRING,
+    stars: {
+      type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
-        len: [1,255],
+        min: 1,
+        max: 5,
       }
     },
-    status: {
-      type: DataTypes.ENUM('read', 'unread'),
+    orderId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 'unread',
     },
-    type: {
-      type: DataTypes.ENUM('notify', 'alert'), //notify: normal notify; alert: alert for gas leak
-      allowNull: false,
-      defaultValue: 'notify',
+    note: {
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
     isDeleted: {
       type: DataTypes.ENUM(1, 0),
@@ -46,15 +45,20 @@ module.exports = function (app) {
   });
 
   // eslint-disable-next-line no-unused-vars
-  notifications.associate = function (models) {
+  ratings.associate = function (models) {
     // Define associations here
     // See https://sequelize.org/master/manual/assocs.html
-    notifications.hasOne(models.users, { //devices.createdBy = users.id
+    ratings.hasOne(models.users, { //devices.createdBy = users.id
       as: 'user',
       sourceKey: 'createdBy',
+      foreignKey: 'id',
+    });
+    ratings.hasOne(models.orders, {
+      as: 'order',
+      sourceKey: 'orderId',
       foreignKey: 'id',
     })
   };
 
-  return notifications;
+  return ratings;
 };
