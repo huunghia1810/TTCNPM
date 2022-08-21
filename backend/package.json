@@ -1,6 +1,6 @@
 {
-  "name": "gas-system-management",
-  "description": "DADN - Gas system management",
+  "name": "order-management",
+  "description": "order management",
   "version": "0.0.0",
   "homepage": "",
   "private": true,
