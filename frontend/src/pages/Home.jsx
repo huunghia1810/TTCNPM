@@ -98,7 +98,7 @@ const history = useHistory()
   return (
     <>
       <Content className='signin'>
-        <Row gutter={[24, 0]}>
+        <Row gutter={[0, 0]}>
           <Col span={22} offset={1}>
             {/*<Col xs={{ span: 24, offset: 0 }}
                  lg={{ span: 22, offset: 1 }}

@@ -130,7 +130,7 @@ const Rating = props => {
   return (
     <>
       <Content className="feedback">
-        <Row gutter={[24, 0]}>
+        <Row gutter={[0, 0]}>
           <Col span={10}>
             <div className="col-feedback">
               <Title>

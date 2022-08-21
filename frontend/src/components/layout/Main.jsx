@@ -77,7 +77,7 @@ const Main = (props) => {
     <>
       <Layout className="layout-default layout-signin">
         <MyHeader />
-        <Row gutter={[24, 0]}>
+        <Row gutter={[0, 0]}>
           <Col span={24} style={{paddingTop: 20, textAlign: 'center'}}>
             <h3 className="text-fill" style={{paddingTop: 10, paddingBottom: 10}}>
               <FontAwesomeIcon icon={faPhone} />&nbsp; 0909 090 909
