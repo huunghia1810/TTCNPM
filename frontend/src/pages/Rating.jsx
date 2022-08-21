@@ -1,4 +1,5 @@
-import _ from "lodash";
+import _ from 'lodash'
+import moment from 'moment'
 
 //import react & relations
 import React, {useEffect, useState} from 'react'
@@ -23,7 +24,6 @@ import './../assets/styles/feedback.css'
 import ActionMenu from '../actions/Menu'
 import ActionOrder from '../actions/Order'
 import ActionRating from '../actions/Rating'
-import moment from "moment";
 
 //init info
 const { ORDER_STATUS } = constantOrder

@@ -5,7 +5,6 @@ import 'moment/locale/vi';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import {
   Avatar,
@@ -24,6 +23,8 @@ import {
 } from 'antd';
 
 import { NavLink, Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 
 //----------import constants---------------
 
@@ -41,8 +42,8 @@ const { Header } = Layout;
 
 const MyHeader = props => {
   const dispatch = useDispatch();
+  const { isAdmin = false } = props
 
-  const { isAdmin } = props;
   const [numberCartItems, setNumberCartItems] = useState(null);
 
   //store
@@ -61,6 +62,7 @@ const MyHeader = props => {
 
   //------------------------render section----------------------------------
   //------------------------render section----------------------------------
+
 
   return (
     <>
@@ -113,6 +115,7 @@ const MyHeader = props => {
             )}
           </Col>
         </Row>
+       
       </Header>
     </>
   );
